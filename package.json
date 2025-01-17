@@ -16,6 +16,37 @@
       {
         "command": "zyloh-sql-formatter.helloWorld",
         "title": "Hello World"
+      },
+      {
+        "command": "zyloh-sql-formatter.showCurrentSql",
+        "title": "Show Current SQL"
+      }
+    ],
+    "languages": [
+      {
+        "id": "sql",
+        "aliases": [
+          "SQL",
+          "sql"
+        ],
+        "extensions": [
+          ".sql"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "sql",
+        "scopeName": "source.sql",
+        "path": "./syntaxes/sql.tmLanguage.json"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "zyloh-sql-formatter.showCurrentSql",
+        "key": "ctrl+enter",
+        "when": "editorTextFocus && editorLangId == sql"
       }
     ]
   },

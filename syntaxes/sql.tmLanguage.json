@@ -1,0 +1,67 @@
+{
+    "name": "SQL",
+    "scopeName": "source.sql",
+    "patterns": [
+        {
+            "include": "#keywords"
+        },
+        {
+            "include": "#execute-immediate"
+        },
+        {
+            "include": "#strings"
+        },
+        {
+            "include": "#comments"
+        }
+    ],
+    "repository": {
+        "keywords": {
+            "patterns": [{
+                "name": "keyword.other.sql",
+                "match": "(?i)\\b(SELECT|FROM|WHERE|AND|OR|INSERT|UPDATE|DELETE|CREATE|DROP|TABLE|DATABASE|ALTER|INDEX|VIEW|REPLACE|PROCEDUR|COMMENT|ON|COLUMN|INTO|LEFT|JOIN|CASE|WHEN|THEN|END|AS)\\b"
+            }]
+        },
+        "execute-immediate": {
+            "begin": "(?i)(EXECUTE\\s+IMMEDIATE\\s+)'",
+            "beginCaptures": {
+                "1": {
+                    "name": "keyword.other.sql"
+                }
+            },
+            "end": "'",
+            "patterns": [
+                {
+                    "name": "keyword.other.sql",
+                    "match": "(?i)\\b(SELECT|FROM|WHERE|AND|OR|INSERT|UPDATE|DELETE|CREATE|DROP|TABLE|DATABASE|ALTER|INDEX|VIEW|REPLACE|PROCEDUR|COMMENT|ON|COLUMN|INTO|LEFT|JOIN|CASE|WHEN|THEN|END|AS)\\b"
+                },
+                {
+                    "name": "constant.character.escape.sql",
+                    "match": "''"
+                }
+            ]
+        },
+        "strings": {
+            "patterns": [{
+                "name": "string.quoted.single.sql",
+                "begin": "'",
+                "end": "'",
+                "patterns": [{
+                    "name": "constant.character.escape.sql",
+                    "match": "''"
+                }]
+            }]
+        },
+        "comments": {
+            "patterns": [{
+                "name": "comment.line.double-dash.sql",
+                "match": "--.*$"
+            },
+            {
+                "name": "comment.block.sql",
+                "begin": "/\\*",
+                "end": "\\*/"
+            }]
+        }
+    }
+} 
