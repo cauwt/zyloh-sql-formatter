@@ -46,35 +46,68 @@ export function activate(context: vscode.ExtensionContext) {
 		}
 	});
 
+	// 注册 hover provider
+	const hoverProvider = vscode.languages.registerHoverProvider('sql', {
+		provideHover(document: vscode.TextDocument, position: vscode.Position) {
+			const range = document.getWordRangeAtPosition(position, /\b((\w+)\.)?(\w+)\b/);
+			
+			if (range) {
+				const word = document.getText(range);
+				const parts = word.split('.');
+				
+				let content = new vscode.MarkdownString();
+				
+				if (parts.length === 2) {
+					content.appendMarkdown(`**表名**: ${parts[0]}\n\n`);
+					content.appendMarkdown(`**字段名**: ${parts[1]}`);
+				} else {
+					content.appendMarkdown(`**标识符**: ${word}`);
+				}
+				
+				return new vscode.Hover(content);
+			}
+			
+			return null;
+		}
+	});
+
 	context.subscriptions.push(disposable);
 	context.subscriptions.push(showSqlDisposable);
+	context.subscriptions.push(hoverProvider);
 }
 
 function extractCurrentSql(text: string, cursorPosition: number): string {
-	// 分隔符是分号
-	const delimiters = /;/g;
-	let match;
-	let startPos = 0;
-	let endPos = text.length;
-	
-	// 查找光标所在的SQL语句
-	while ((match = delimiters.exec(text)) !== null) {
-		if (match.index >= cursorPosition) {
-			endPos = match.index;
-			break;
-		}
-		startPos = match.index + 1;
-	}
-	
-	// 提取并清理SQL语句
-	let sql = text.substring(startPos, endPos).trim();
-	
-	// 如果是空的，返回null
-	if (!sql) {
-		return '';
-	}
-	
-	return sql;
+    // 分隔符是分号
+    const delimiters = /;/g;
+    let match;
+    let startPos = 0;
+    let endPos = text.length;
+    
+    // 查找光标所在的SQL语句
+    while ((match = delimiters.exec(text)) !== null) {
+        if (match.index >= cursorPosition) {
+            endPos = match.index;
+            break;
+        }
+        startPos = match.index + 1;
+    }
+    
+    // 提取并清理SQL语句
+    let sql = text.substring(startPos, endPos).trim();
+    
+    // 检查是否为动态SQL
+    const dynamicSqlMatch = sql.match(/EXECUTE\s+IMMEDIATE\s+[']([^']*(''[^'"]*)*)[']/i);
+    if (dynamicSqlMatch) {
+        // 提取动态SQL内容，并处理转义的单引号
+        sql = dynamicSqlMatch[1].replace(/''/g, "'");
+    }
+    
+    // 如果是空的，返回null
+    if (!sql) {
+        return '';
+    }
+    
+    return sql;
 }
 
 // This method is called when your extension is deactivated
