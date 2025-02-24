@@ -96,14 +96,28 @@ function extractCurrentSql(text: string, cursorPosition: number): string {
     let sql = text.substring(startPos, endPos).trim();
     
     // 检查是否为动态SQL
-    const dynamicSqlMatch = sql.match(/EXECUTE\s+IMMEDIATE\s+[']([^']*(''[^'"]*)*)[']/i);
+    const dynamicSqlMatch = (sql+";").match(/EXECUTE\s+IMMEDIATE\s+'([^;]+)';/i);
     if (dynamicSqlMatch) {
         // 提取动态SQL内容，并处理转义的单引号
         sql = dynamicSqlMatch[1].replace(/''/g, "'");
+        
+        // 处理变量拼接的情况
+        // 这里假设变量拼接使用的是 '+'
+        // 例如: '''+p_data_date+'''
+        const variablePattern = /'''\s*\+\s*([\w\s]+)\s*\+\s*'''/g;
+        let variableMatch;
+        while ((variableMatch = variablePattern.exec(sql)) !== null) {
+            // 替换变量拼接部分为占位符或其他处理方式
+            // 这里简单地替换为 '<variable>'
+            sql = sql.replace(variableMatch[0], '<variable>');
+        }
     }
-    
+    // 输出提取的SQL语句到DEBUG CONSOLE
+    console.log(`Extracted SQL: \n${sql}`);
+
     // 如果是空的，返回null
     if (!sql) {
+        console.log(`No sql extracted.`);
         return '';
     }
     
