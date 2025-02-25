@@ -36,6 +36,8 @@ export default class Lineager {
           console.log(child.nameKw);}
         }
       }
+      // 判断语句类型
+      // 1. CREATE TABLE 建表语句
       // 1. CREATE TABLE ... SELECT
       // 2. INSERT INTO ... SELECT
     // 遍历语法树，提取字段血缘关系
