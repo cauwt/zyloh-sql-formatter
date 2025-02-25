@@ -30,10 +30,14 @@ export default class Lineager {
     const lineages: ColumnLineage[] = [];
     // 遍历每个语句节点
     for(const statement of statements){
-      console.log(statement.type)
+      for (const child of statement.children) {
+        console.log(child.type);
+        if( child.type === NodeType.clause){
+          console.log(child.nameKw);}
+        }
+      }
       // 1. CREATE TABLE ... SELECT
       // 2. INSERT INTO ... SELECT
-    }
     // 遍历语法树，提取字段血缘关系
     // 这里需要实现具体的血缘分析逻辑
     // 1. 分析SELECT语句的目标字段

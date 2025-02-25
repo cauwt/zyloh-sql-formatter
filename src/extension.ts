@@ -1,7 +1,7 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
-import {format} from './sqlFormatter.js';
+import { lineager } from './sqlLineager.js';
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
@@ -114,15 +114,8 @@ function extractCurrentSql(text: string, cursorPosition: number): string {
     // 输出提取的SQL语句到DEBUG CONSOLE
     console.log(`Extracted SQL: \n${sql}`);
 
-	let formattedSql = format(sql, {  language: 'plsql',
-		tabWidth: 2,
-		keywordCase: 'upper',
-		expressionWidth: 50,
-		identifierCase: 'lower',
-		linesBetweenQueries: 2, });
-	// 输出格式化后的SQL语句到DEBUG CONSOLE
-	console.log(`Formatted SQL: \n${formattedSql}`);
-    
+	let lineage = lineager(sql, { language: 'plsql' });
+ 
     return sql;
 }
 
