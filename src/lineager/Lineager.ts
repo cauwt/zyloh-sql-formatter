@@ -1,6 +1,34 @@
 import { Dialect } from '../dialect.js';
 import { createParser } from '../parser/createParser.js';
-import { StatementNode, NodeType } from '../parser/ast.js';
+import {
+  AllColumnsAsteriskNode,
+  ArraySubscriptNode,
+  AstNode,
+  BetweenPredicateNode,
+  SetOperationNode,
+  ClauseNode,
+  FunctionCallNode,
+  LimitClauseNode,
+  NodeType,
+  ParenthesisNode,
+  LiteralNode,
+  IdentifierNode,
+  ParameterNode,
+  OperatorNode,
+  LineCommentNode,
+  BlockCommentNode,
+  CommaNode,
+  KeywordNode,
+  PropertyAccessNode,
+  CommentNode,
+  CaseExpressionNode,
+  CaseWhenNode,
+  CaseElseNode,
+  DataTypeNode,
+  ParameterizedDataTypeNode,
+  DisableCommentNode,
+  StatementNode
+} from '../parser/ast.js';
 import { LineageOptions, ColumnLineage } from '../sqlLineager.js';
 
 export default class Lineager {
@@ -46,7 +74,6 @@ export default class Lineager {
     // 2. 追踪字段来源（FROM、JOIN等子句）
     // 3. 处理子查询和CTE（如果启用）
     // 4. 处理字段转换和计算
-
     return lineages;
   }
 } 

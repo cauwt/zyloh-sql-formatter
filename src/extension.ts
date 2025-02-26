@@ -98,11 +98,11 @@ function extractCurrentSql(text: string, cursorPosition: number): string {
     // 检查是否为动态SQL
     const dynamicSqlMatch = (sql+";").match(/EXECUTE\s+IMMEDIATE\s+'([^;]+)';/i);
     if (dynamicSqlMatch) {
+        // 将变量替换为命名参数
+		sql = dynamicSqlMatch[1].replace(/'''\s*\|\|\s*(\w+)\s*\|\|\s*'''/g, ":$1");
         // 提取动态SQL内容，并处理转义的单引号
-        sql = dynamicSqlMatch[1].replace(/''/g, "'");
+        sql = sql.replace(/''/g, "'");
         
-        // 将变量p_data_date替换为'2025-01-31'
-		sql = sql.replace(/''\s*\+\s*p_data_date\s*\+\s*''/g, "'0000-00-00'");
     }
 
 
