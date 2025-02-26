@@ -57,23 +57,31 @@ export default class Lineager {
   private analyzeAst(statements: StatementNode[]): ColumnLineage[] {
     const lineages: ColumnLineage[] = [];
     // 遍历每个语句节点
-    for(const statement of statements){
-      for (const child of statement.children) {
-        console.log(child.type);
-        if( child.type === NodeType.clause){
-          console.log(child.nameKw);}
+    for (const statement of statements) {
+      if (statement.children.length > 0) {
+        const subnode0 = statement.children[0];
+        if (subnode0.type === NodeType.clause && subnode0.nameKw.text === 'CREATE TABLE') {
+          // 提取表名
+          const tableNameNode = subnode0.children[0];
+          const tableName = this.extractIdentifier(tableNameNode);
+          console.log('Extracted Table Name:', tableName);
+  
+          // 根据需要进一步处理血缘关系
+          // 这里可以添加具体的血缘分析逻辑
         }
       }
-      // 判断语句类型
-      // 1. CREATE TABLE 建表语句
-      // 1. CREATE TABLE ... SELECT
-      // 2. INSERT INTO ... SELECT
-    // 遍历语法树，提取字段血缘关系
-    // 这里需要实现具体的血缘分析逻辑
-    // 1. 分析SELECT语句的目标字段
-    // 2. 追踪字段来源（FROM、JOIN等子句）
-    // 3. 处理子查询和CTE（如果启用）
-    // 4. 处理字段转换和计算
+    }
     return lineages;
+  }
+  // 提取标识符，类型可能有a.b形式，或者a形式
+  private extractIdentifier(node: AstNode): String {
+    if (node.type === NodeType.identifier) {
+      return (node as IdentifierNode).text;
+    } else if (node.type === NodeType.property_access) {
+      const propertyAccessNode = node as PropertyAccessNode;
+      return `${this.extractIdentifier(propertyAccessNode.object)}.${this.extractIdentifier(propertyAccessNode.property)}`;
+    } else {
+      return '';
+    }
   }
 } 
