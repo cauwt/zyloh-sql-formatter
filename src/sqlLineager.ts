@@ -2,6 +2,8 @@ import * as allDialects from './allDialects.js';
 import { ConfigError } from './validateConfig.js';
 import { createDialect } from './dialect.js';
 import Lineager from './lineager/Lineager.js';
+import { ColumnLineage } from './lineager/columnLineage.js';
+import { TableLineage } from './lineager/tableLineage.js';
 
 // 定义血缘分析的配置选项
 export interface LineageOptions {
@@ -10,12 +12,6 @@ export interface LineageOptions {
   includeCTE?: boolean;           // 是否包含CTE的血缘关系
 }
 
-// 定义血缘关系的返回结构
-export interface ColumnLineage {
-  target: string;           // 目标字段
-  source: string[];         // 来源字段列表
-  transformation?: string;  // 转换规则（如有）
-}
 
 const defaultOptions: LineageOptions = {
   includeSubqueries: true,
@@ -53,12 +49,12 @@ const dialectNameMap: Record<keyof typeof allDialects | 'tsql', keyof typeof all
  * 
  * @param {string} query - 输入的SQL查询语句
  * @param {object} cfg - 配置选项，包含language和其他血缘分析选项
- * @return {ColumnLineage[]} 字段血缘关系列表
+ * @return {TableLineage[]} 字段血缘关系列表
  */
 export const lineager = (
   query: string,
   cfg: Partial<LineageOptions> & { language?: SqlLanguage } = {}
-): ColumnLineage[] => {
+): TableLineage[] => {
   if (typeof query !== 'string') {
     throw new Error('Invalid query argument. Expected string, instead got ' + typeof query);
   }

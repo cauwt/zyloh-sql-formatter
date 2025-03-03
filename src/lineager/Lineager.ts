@@ -29,7 +29,10 @@ import {
   DisableCommentNode,
   StatementNode
 } from '../parser/ast.js';
-import { LineageOptions, ColumnLineage } from '../sqlLineager.js';
+import { LineageOptions} from '../sqlLineager.js';
+import { ColumnLineage } from './columnLineage.js';
+import { TableLineage } from './tableLineage.js';
+import { Table } from './table.js';
 
 export default class Lineager {
   private dialect: Dialect;
@@ -43,9 +46,9 @@ export default class Lineager {
   /**
    * 分析SQL查询中的字段血缘关系
    * @param {string} query - SQL查询语句
-   * @return {ColumnLineage[]} 血缘关系列表
+   * @return { TableLineage[]} 血缘关系列表
    */
-  public analyze(query: string): ColumnLineage[] {
+  public analyze(query: string): TableLineage[] {
     const ast = this.parse(query);
     return this.analyzeAst(ast);
   }
@@ -54,8 +57,8 @@ export default class Lineager {
     return createParser(this.dialect.tokenizer).parse(query, {});
   }
 
-  private analyzeAst(statements: StatementNode[]): ColumnLineage[] {
-    const lineages: ColumnLineage[] = [];
+  private analyzeAst(statements: StatementNode[]): TableLineage[] {
+    const lineages: TableLineage[] = [];
     // 遍历每个语句节点
     for (const statement of statements) {
       if (statement.children.length > 0) {
@@ -65,9 +68,13 @@ export default class Lineager {
           const tableNameNode = subnode0.children[0];
           const tableName = this.extractIdentifier(tableNameNode);
           console.log('Extracted Table Name:', tableName);
-  
+          let tableLineage: TableLineage = {
+            target_table: this.extractTableInfo(tableName),
+            columnLineages: []
+          };
           // 根据需要进一步处理血缘关系
           // 这里可以添加具体的血缘分析逻辑
+          lineages.push(tableLineage);
         }
       }
     }
@@ -83,5 +90,21 @@ export default class Lineager {
     } else {
       return '';
     }
+  }
+  private extractTableInfo(tableName: String): Table {
+    // 使用正则表达式匹配 [db.][schema.]table
+    const match = tableName.match(/^(?:(?<db>\w+)\.)?(?:(?<schema>\w+)\.)?(?<name>\w+)$/);
+  
+    if (!match || !match.groups) {
+      throw new Error(`Invalid table name format: ${tableName}`);
+    }
+  
+    const { db, schema, name } = match.groups;
+  
+    return {
+      db: db || undefined,
+      schema: schema || undefined,
+      name: name
+    };
   }
 } 

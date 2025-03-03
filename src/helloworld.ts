@@ -12,7 +12,7 @@ id number(20)
 ,create_date date
 ,create_time timestamp
 ) TABLESPACE "FDS_D_TBS";
-`
+`;
 
 console.log(format(sql, {  language: 'plsql',
     tabWidth: 2,
