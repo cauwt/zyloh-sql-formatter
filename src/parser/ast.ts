@@ -30,6 +30,7 @@ export enum NodeType {
 interface BaseNode {
   leadingComments?: CommentNode[];
   trailingComments?: CommentNode[];
+  start?: number;
 }
 
 export interface StatementNode extends BaseNode {

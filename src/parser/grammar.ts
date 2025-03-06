@@ -62,6 +62,7 @@ const unwrap = <T>([[el]]: T[][]): T => el;
 
 const toKeywordNode = (token: Token): KeywordNode => ({
   type: NodeType.keyword,
+  start: token.start,
   tokenType: token.type,
   text: token.text,
   raw: token.raw,
@@ -69,6 +70,7 @@ const toKeywordNode = (token: Token): KeywordNode => ({
 
 const toDataTypeNode = (token: Token): DataTypeNode => ({
   type: NodeType.data_type,
+  start: token.start,
   text: token.text,
   raw: token.raw,
 });
@@ -152,6 +154,7 @@ const grammar: Grammar = {
     {"name": "statement", "symbols": ["expressions_or_clauses", "statement$subexpression$1"], "postprocess": 
         ([children, [delimiter]]) => ({
           type: NodeType.statement,
+          start: children[0].start,
           children,
           hasSemicolon: delimiter.type === TokenType.DELIMITER,
         })
@@ -179,6 +182,7 @@ const grammar: Grammar = {
             const [comma, exp2] = optional;
             return {
               type: NodeType.limit_clause,
+              start: limitToken.start,
               limitKw: addComments(toKeywordNode(limitToken), { trailing: _ }),
               offset: exp1,
               count: exp2,
@@ -186,6 +190,7 @@ const grammar: Grammar = {
           } else {
             return {
               type: NodeType.limit_clause,
+              start: limitToken.start,
               limitKw: addComments(toKeywordNode(limitToken), { trailing: _ }),
               count: exp1,
             };
@@ -201,6 +206,7 @@ const grammar: Grammar = {
     {"name": "select_clause", "symbols": [(lexer.has("RESERVED_SELECT") ? {type: "RESERVED_SELECT"} : RESERVED_SELECT), "select_clause$subexpression$1"], "postprocess": 
         ([nameToken, [exp, expressions]]) => ({
           type: NodeType.clause,
+          start: nameToken.start,
           nameKw: toKeywordNode(nameToken),
           children: [exp, ...expressions],
         })
@@ -208,18 +214,20 @@ const grammar: Grammar = {
     {"name": "select_clause", "symbols": [(lexer.has("RESERVED_SELECT") ? {type: "RESERVED_SELECT"} : RESERVED_SELECT)], "postprocess": 
         ([nameToken]) => ({
           type: NodeType.clause,
+          start: nameToken.start,
           nameKw: toKeywordNode(nameToken),
           children: [],
         })
         },
     {"name": "all_columns_asterisk", "symbols": [(lexer.has("ASTERISK") ? {type: "ASTERISK"} : ASTERISK)], "postprocess": 
-        () => ({ type: NodeType.all_columns_asterisk })
+        ([[token]]) => ({ type: NodeType.all_columns_asterisk,start: token.start })
         },
     {"name": "other_clause$ebnf$1", "symbols": []},
     {"name": "other_clause$ebnf$1", "symbols": ["other_clause$ebnf$1", "free_form_sql"], "postprocess": (d) => d[0].concat([d[1]])},
     {"name": "other_clause", "symbols": [(lexer.has("RESERVED_CLAUSE") ? {type: "RESERVED_CLAUSE"} : RESERVED_CLAUSE), "other_clause$ebnf$1"], "postprocess": 
         ([nameToken, children]) => ({
           type: NodeType.clause,
+          start: nameToken.start,
           nameKw: toKeywordNode(nameToken),
           children,
         })
@@ -229,6 +237,7 @@ const grammar: Grammar = {
     {"name": "set_operation", "symbols": [(lexer.has("RESERVED_SET_OPERATION") ? {type: "RESERVED_SET_OPERATION"} : RESERVED_SET_OPERATION), "set_operation$ebnf$1"], "postprocess": 
         ([nameToken, children]) => ({
           type: NodeType.set_operation,
+          start: nameToken.start,
           nameKw: toKeywordNode(nameToken),
           children,
         })
@@ -290,6 +299,7 @@ const grammar: Grammar = {
     {"name": "array_subscript", "symbols": [(lexer.has("ARRAY_IDENTIFIER") ? {type: "ARRAY_IDENTIFIER"} : ARRAY_IDENTIFIER), "_", "square_brackets"], "postprocess": 
         ([arrayToken, _, brackets]) => ({
           type: NodeType.array_subscript,
+          start: arrayToken.start,
           array: addComments({ type: NodeType.identifier, quoted: false, text: arrayToken.text}, { trailing: _ }),
           parenthesis: brackets,
         })
@@ -297,6 +307,7 @@ const grammar: Grammar = {
     {"name": "array_subscript", "symbols": [(lexer.has("ARRAY_KEYWORD") ? {type: "ARRAY_KEYWORD"} : ARRAY_KEYWORD), "_", "square_brackets"], "postprocess": 
         ([arrayToken, _, brackets]) => ({
           type: NodeType.array_subscript,
+          start: arrayToken.start,
           array: addComments(toKeywordNode(arrayToken), { trailing: _ }),
           parenthesis: brackets,
         })
@@ -304,6 +315,7 @@ const grammar: Grammar = {
     {"name": "function_call", "symbols": [(lexer.has("RESERVED_FUNCTION_NAME") ? {type: "RESERVED_FUNCTION_NAME"} : RESERVED_FUNCTION_NAME), "_", "parenthesis"], "postprocess": 
         ([nameToken, _, parens]) => ({
           type: NodeType.function_call,
+          start: nameToken.start,
           nameKw: addComments(toKeywordNode(nameToken), { trailing: _ }),
           parenthesis: parens,
         })
@@ -311,6 +323,7 @@ const grammar: Grammar = {
     {"name": "parenthesis", "symbols": [{"literal":"("}, "expressions_or_clauses", {"literal":")"}], "postprocess": 
         ([open, children, close]) => ({
           type: NodeType.parenthesis,
+          start: open.start,
           children: children,
           openParen: "(",
           closeParen: ")",
@@ -321,6 +334,7 @@ const grammar: Grammar = {
     {"name": "curly_braces", "symbols": [{"literal":"{"}, "curly_braces$ebnf$1", {"literal":"}"}], "postprocess": 
         ([open, children, close]) => ({
           type: NodeType.parenthesis,
+          start: open.start,
           children: children,
           openParen: "{",
           closeParen: "}",
@@ -331,6 +345,7 @@ const grammar: Grammar = {
     {"name": "square_brackets", "symbols": [{"literal":"["}, "square_brackets$ebnf$1", {"literal":"]"}], "postprocess": 
         ([open, children, close]) => ({
           type: NodeType.parenthesis,
+          start: open.start,
           children: children,
           openParen: "[",
           closeParen: "]",
@@ -348,6 +363,7 @@ const grammar: Grammar = {
         ([object, _1, dot, _2, [property]]) => {
           return {
             type: NodeType.property_access,
+            start: object.start,
             object: addComments(object, { trailing: _1 }),
             operator: dot.text,
             property: addComments(property, { leading: _2 }),
@@ -357,6 +373,7 @@ const grammar: Grammar = {
     {"name": "between_predicate", "symbols": [(lexer.has("BETWEEN") ? {type: "BETWEEN"} : BETWEEN), "_", "andless_expression_chain", "_", (lexer.has("AND") ? {type: "AND"} : AND), "_", "andless_expression"], "postprocess": 
         ([betweenToken, _1, expr1, _2, andToken, _3, expr2]) => ({
           type: NodeType.between_predicate,
+          start: betweenToken.start,
           betweenKw: toKeywordNode(betweenToken),
           expr1: addCommentsToArray(expr1, { leading: _1, trailing: _2 }),
           andKw: toKeywordNode(andToken),
@@ -370,6 +387,7 @@ const grammar: Grammar = {
     {"name": "case_expression", "symbols": [(lexer.has("CASE") ? {type: "CASE"} : CASE), "_", "case_expression$ebnf$1", "case_expression$ebnf$2", (lexer.has("END") ? {type: "END"} : END)], "postprocess": 
         ([caseToken, _, expr, clauses, endToken]) => ({
           type: NodeType.case_expression,
+          start: caseToken.start,
           caseKw: addComments(toKeywordNode(caseToken), { trailing: _ }),
           endKw: toKeywordNode(endToken),
           expr: expr || [],
@@ -379,6 +397,7 @@ const grammar: Grammar = {
     {"name": "case_clause", "symbols": [(lexer.has("WHEN") ? {type: "WHEN"} : WHEN), "_", "expression_chain_", (lexer.has("THEN") ? {type: "THEN"} : THEN), "_", "expression_chain_"], "postprocess": 
         ([whenToken, _1, cond, thenToken, _2, expr]) => ({
           type: NodeType.case_when,
+          start: whenToken.start,
           whenKw: addComments(toKeywordNode(whenToken), { trailing: _1 }),
           thenKw: addComments(toKeywordNode(thenToken), { trailing: _2 }),
           condition: cond,
@@ -388,29 +407,30 @@ const grammar: Grammar = {
     {"name": "case_clause", "symbols": [(lexer.has("ELSE") ? {type: "ELSE"} : ELSE), "_", "expression_chain_"], "postprocess": 
         ([elseToken, _, expr]) => ({
           type: NodeType.case_else,
+          start: elseToken.start,
           elseKw: addComments(toKeywordNode(elseToken), { trailing: _ }),
           result: expr,
         })
         },
     {"name": "comma$subexpression$1", "symbols": [(lexer.has("COMMA") ? {type: "COMMA"} : COMMA)]},
-    {"name": "comma", "symbols": ["comma$subexpression$1"], "postprocess": ([[token]]) => ({ type: NodeType.comma })},
+    {"name": "comma", "symbols": ["comma$subexpression$1"], "postprocess": ([[token]]) => ({ type: NodeType.comma, start:token.start })},
     {"name": "asterisk$subexpression$1", "symbols": [(lexer.has("ASTERISK") ? {type: "ASTERISK"} : ASTERISK)]},
-    {"name": "asterisk", "symbols": ["asterisk$subexpression$1"], "postprocess": ([[token]]) => ({ type: NodeType.operator, text: token.text })},
+    {"name": "asterisk", "symbols": ["asterisk$subexpression$1"], "postprocess": ([[token]]) => ({ type: NodeType.operator, text: token.text, start:token.start })},
     {"name": "operator$subexpression$1", "symbols": [(lexer.has("OPERATOR") ? {type: "OPERATOR"} : OPERATOR)]},
-    {"name": "operator", "symbols": ["operator$subexpression$1"], "postprocess": ([[token]]) => ({ type: NodeType.operator, text: token.text })},
+    {"name": "operator", "symbols": ["operator$subexpression$1"], "postprocess": ([[token]]) => ({ type: NodeType.operator, text: token.text, start:token.start })},
     {"name": "identifier$subexpression$1", "symbols": [(lexer.has("IDENTIFIER") ? {type: "IDENTIFIER"} : IDENTIFIER)]},
     {"name": "identifier$subexpression$1", "symbols": [(lexer.has("QUOTED_IDENTIFIER") ? {type: "QUOTED_IDENTIFIER"} : QUOTED_IDENTIFIER)]},
     {"name": "identifier$subexpression$1", "symbols": [(lexer.has("VARIABLE") ? {type: "VARIABLE"} : VARIABLE)]},
-    {"name": "identifier", "symbols": ["identifier$subexpression$1"], "postprocess": ([[token]]) => ({ type: NodeType.identifier, quoted: token.type !== "IDENTIFIER", text: token.text })},
+    {"name": "identifier", "symbols": ["identifier$subexpression$1"], "postprocess": ([[token]]) => ({ type: NodeType.identifier, quoted: token.type !== "IDENTIFIER", text: token.text, start:token.start })},
     {"name": "parameter$subexpression$1", "symbols": [(lexer.has("NAMED_PARAMETER") ? {type: "NAMED_PARAMETER"} : NAMED_PARAMETER)]},
     {"name": "parameter$subexpression$1", "symbols": [(lexer.has("QUOTED_PARAMETER") ? {type: "QUOTED_PARAMETER"} : QUOTED_PARAMETER)]},
     {"name": "parameter$subexpression$1", "symbols": [(lexer.has("NUMBERED_PARAMETER") ? {type: "NUMBERED_PARAMETER"} : NUMBERED_PARAMETER)]},
     {"name": "parameter$subexpression$1", "symbols": [(lexer.has("POSITIONAL_PARAMETER") ? {type: "POSITIONAL_PARAMETER"} : POSITIONAL_PARAMETER)]},
     {"name": "parameter$subexpression$1", "symbols": [(lexer.has("CUSTOM_PARAMETER") ? {type: "CUSTOM_PARAMETER"} : CUSTOM_PARAMETER)]},
-    {"name": "parameter", "symbols": ["parameter$subexpression$1"], "postprocess": ([[token]]) => ({ type: NodeType.parameter, key: token.key, text: token.text })},
+    {"name": "parameter", "symbols": ["parameter$subexpression$1"], "postprocess": ([[token]]) => ({ type: NodeType.parameter, key: token.key, text: token.text, start:token.start })},
     {"name": "literal$subexpression$1", "symbols": [(lexer.has("NUMBER") ? {type: "NUMBER"} : NUMBER)]},
     {"name": "literal$subexpression$1", "symbols": [(lexer.has("STRING") ? {type: "STRING"} : STRING)]},
-    {"name": "literal", "symbols": ["literal$subexpression$1"], "postprocess": ([[token]]) => ({ type: NodeType.literal, text: token.text })},
+    {"name": "literal", "symbols": ["literal$subexpression$1"], "postprocess": ([[token]]) => ({ type: NodeType.literal, text: token.text, start:token.start })},
     {"name": "keyword$subexpression$1", "symbols": [(lexer.has("RESERVED_KEYWORD") ? {type: "RESERVED_KEYWORD"} : RESERVED_KEYWORD)]},
     {"name": "keyword$subexpression$1", "symbols": [(lexer.has("RESERVED_PHRASE") ? {type: "RESERVED_PHRASE"} : RESERVED_PHRASE)]},
     {"name": "keyword$subexpression$1", "symbols": [(lexer.has("RESERVED_JOIN") ? {type: "RESERVED_JOIN"} : RESERVED_JOIN)]},
@@ -424,6 +444,7 @@ const grammar: Grammar = {
     {"name": "data_type", "symbols": [(lexer.has("RESERVED_PARAMETERIZED_DATA_TYPE") ? {type: "RESERVED_PARAMETERIZED_DATA_TYPE"} : RESERVED_PARAMETERIZED_DATA_TYPE), "_", "parenthesis"], "postprocess": 
         ([nameToken, _, parens]) => ({
           type: NodeType.parameterized_data_type,
+          start: nameToken.start,
           dataType: addComments(toDataTypeNode(nameToken), { trailing: _ }),
           parenthesis: parens,
         })
@@ -447,6 +468,7 @@ const grammar: Grammar = {
     {"name": "comment", "symbols": [(lexer.has("LINE_COMMENT") ? {type: "LINE_COMMENT"} : LINE_COMMENT)], "postprocess": 
         ([token]) => ({
           type: NodeType.line_comment,
+          start: token.start,
           text: token.text,
           precedingWhitespace: token.precedingWhitespace,
         })
@@ -454,6 +476,7 @@ const grammar: Grammar = {
     {"name": "comment", "symbols": [(lexer.has("BLOCK_COMMENT") ? {type: "BLOCK_COMMENT"} : BLOCK_COMMENT)], "postprocess": 
         ([token]) => ({
           type: NodeType.block_comment,
+          start: token.start,
           text: token.text,
           precedingWhitespace: token.precedingWhitespace,
         })
@@ -461,6 +484,7 @@ const grammar: Grammar = {
     {"name": "comment", "symbols": [(lexer.has("DISABLE_COMMENT") ? {type: "DISABLE_COMMENT"} : DISABLE_COMMENT)], "postprocess": 
         ([token]) => ({
           type: NodeType.disable_comment,
+          start: token.start,
           text: token.text,
           precedingWhitespace: token.precedingWhitespace,
         })

@@ -18,6 +18,7 @@ const unwrap = <T>([[el]]: T[][]): T => el;
 
 const toKeywordNode = (token: Token): KeywordNode => ({
   type: NodeType.keyword,
+  start: token.start,
   tokenType: token.type,
   text: token.text,
   raw: token.raw,
@@ -25,6 +26,7 @@ const toKeywordNode = (token: Token): KeywordNode => ({
 
 const toDataTypeNode = (token: Token): DataTypeNode => ({
   type: NodeType.data_type,
+  start: token.start,
   text: token.text,
   raw: token.raw,
 });
@@ -83,6 +85,7 @@ main -> statement:* {%
 statement -> expressions_or_clauses (%DELIMITER | %EOF) {%
   ([children, [delimiter]]) => ({
     type: NodeType.statement,
+    start: children[0].start,
     children,
     hasSemicolon: delimiter.type === TokenType.DELIMITER,
   })
@@ -105,6 +108,7 @@ limit_clause -> %LIMIT _ expression_chain_ (%COMMA free_form_sql:+):? {%
       const [comma, exp2] = optional;
       return {
         type: NodeType.limit_clause,
+        start: limitToken.start,
         limitKw: addComments(toKeywordNode(limitToken), { trailing: _ }),
         offset: exp1,
         count: exp2,
@@ -112,6 +116,7 @@ limit_clause -> %LIMIT _ expression_chain_ (%COMMA free_form_sql:+):? {%
     } else {
       return {
         type: NodeType.limit_clause,
+        start: limitToken.start,
         limitKw: addComments(toKeywordNode(limitToken), { trailing: _ }),
         count: exp1,
       };
@@ -122,6 +127,7 @@ limit_clause -> %LIMIT _ expression_chain_ (%COMMA free_form_sql:+):? {%
 select_clause -> %RESERVED_SELECT (all_columns_asterisk free_form_sql:* | asteriskless_free_form_sql free_form_sql:*) {%
   ([nameToken, [exp, expressions]]) => ({
     type: NodeType.clause,
+    start: nameToken.start,
     nameKw: toKeywordNode(nameToken),
     children: [exp, ...expressions],
   })
@@ -129,18 +135,20 @@ select_clause -> %RESERVED_SELECT (all_columns_asterisk free_form_sql:* | asteri
 select_clause -> %RESERVED_SELECT {%
   ([nameToken]) => ({
     type: NodeType.clause,
+    start: nameToken.start,
     nameKw: toKeywordNode(nameToken),
     children: [],
   })
 %}
 
 all_columns_asterisk -> %ASTERISK {%
-  () => ({ type: NodeType.all_columns_asterisk })
+  ([[token]]) => ({ type: NodeType.all_columns_asterisk,start: token.start })
 %}
 
 other_clause -> %RESERVED_CLAUSE free_form_sql:* {%
   ([nameToken, children]) => ({
     type: NodeType.clause,
+    start: nameToken.start,
     nameKw: toKeywordNode(nameToken),
     children,
   })
@@ -149,6 +157,7 @@ other_clause -> %RESERVED_CLAUSE free_form_sql:* {%
 set_operation -> %RESERVED_SET_OPERATION free_form_sql:* {%
   ([nameToken, children]) => ({
     type: NodeType.set_operation,
+    start: nameToken.start,
     nameKw: toKeywordNode(nameToken),
     children,
   })
@@ -209,6 +218,7 @@ atomic_expression ->
 array_subscript -> %ARRAY_IDENTIFIER _ square_brackets {%
   ([arrayToken, _, brackets]) => ({
     type: NodeType.array_subscript,
+    start: arrayToken.start,
     array: addComments({ type: NodeType.identifier, quoted: false, text: arrayToken.text}, { trailing: _ }),
     parenthesis: brackets,
   })
@@ -216,6 +226,7 @@ array_subscript -> %ARRAY_IDENTIFIER _ square_brackets {%
 array_subscript -> %ARRAY_KEYWORD _ square_brackets {%
   ([arrayToken, _, brackets]) => ({
     type: NodeType.array_subscript,
+    start: arrayToken.start,
     array: addComments(toKeywordNode(arrayToken), { trailing: _ }),
     parenthesis: brackets,
   })
@@ -224,6 +235,7 @@ array_subscript -> %ARRAY_KEYWORD _ square_brackets {%
 function_call -> %RESERVED_FUNCTION_NAME _ parenthesis {%
   ([nameToken, _, parens]) => ({
     type: NodeType.function_call,
+    start: nameToken.start,
     nameKw: addComments(toKeywordNode(nameToken), { trailing: _ }),
     parenthesis: parens,
   })
@@ -232,6 +244,7 @@ function_call -> %RESERVED_FUNCTION_NAME _ parenthesis {%
 parenthesis -> "(" expressions_or_clauses ")" {%
   ([open, children, close]) => ({
     type: NodeType.parenthesis,
+    start: open.start,
     children: children,
     openParen: "(",
     closeParen: ")",
@@ -241,6 +254,7 @@ parenthesis -> "(" expressions_or_clauses ")" {%
 curly_braces -> "{" free_form_sql:* "}" {%
   ([open, children, close]) => ({
     type: NodeType.parenthesis,
+    start: open.start,
     children: children,
     openParen: "{",
     closeParen: "}",
@@ -250,6 +264,7 @@ curly_braces -> "{" free_form_sql:* "}" {%
 square_brackets -> "[" free_form_sql:* "]" {%
   ([open, children, close]) => ({
     type: NodeType.parenthesis,
+    start: open.start,
     children: children,
     openParen: "[",
     closeParen: "]",
@@ -264,6 +279,7 @@ property_access -> atomic_expression _ %PROPERTY_ACCESS_OPERATOR _ (identifier |
   ([object, _1, dot, _2, [property]]) => {
     return {
       type: NodeType.property_access,
+      start: object.start,
       object: addComments(object, { trailing: _1 }),
       operator: dot.text,
       property: addComments(property, { leading: _2 }),
@@ -274,6 +290,7 @@ property_access -> atomic_expression _ %PROPERTY_ACCESS_OPERATOR _ (identifier |
 between_predicate -> %BETWEEN _ andless_expression_chain _ %AND _ andless_expression {%
   ([betweenToken, _1, expr1, _2, andToken, _3, expr2]) => ({
     type: NodeType.between_predicate,
+    start: betweenToken.start,
     betweenKw: toKeywordNode(betweenToken),
     expr1: addCommentsToArray(expr1, { leading: _1, trailing: _2 }),
     andKw: toKeywordNode(andToken),
@@ -284,6 +301,7 @@ between_predicate -> %BETWEEN _ andless_expression_chain _ %AND _ andless_expres
 case_expression -> %CASE _ expression_chain_:? case_clause:* %END {%
   ([caseToken, _, expr, clauses, endToken]) => ({
     type: NodeType.case_expression,
+    start: caseToken.start,
     caseKw: addComments(toKeywordNode(caseToken), { trailing: _ }),
     endKw: toKeywordNode(endToken),
     expr: expr || [],
@@ -294,6 +312,7 @@ case_expression -> %CASE _ expression_chain_:? case_clause:* %END {%
 case_clause -> %WHEN _ expression_chain_ %THEN _ expression_chain_ {%
   ([whenToken, _1, cond, thenToken, _2, expr]) => ({
     type: NodeType.case_when,
+    start: whenToken.start,
     whenKw: addComments(toKeywordNode(whenToken), { trailing: _1 }),
     thenKw: addComments(toKeywordNode(thenToken), { trailing: _2 }),
     condition: cond,
@@ -303,32 +322,33 @@ case_clause -> %WHEN _ expression_chain_ %THEN _ expression_chain_ {%
 case_clause -> %ELSE _ expression_chain_ {%
   ([elseToken, _, expr]) => ({
     type: NodeType.case_else,
+    start: elseToken.start,
     elseKw: addComments(toKeywordNode(elseToken), { trailing: _ }),
     result: expr,
   })
 %}
 
-comma -> ( %COMMA ) {% ([[token]]) => ({ type: NodeType.comma }) %}
+comma -> ( %COMMA ) {% ([[token]]) => ({ type: NodeType.comma, start:token.start }) %}
 
-asterisk -> ( %ASTERISK ) {% ([[token]]) => ({ type: NodeType.operator, text: token.text }) %}
+asterisk -> ( %ASTERISK ) {% ([[token]]) => ({ type: NodeType.operator, text: token.text, start:token.start }) %}
 
-operator -> ( %OPERATOR ) {% ([[token]]) => ({ type: NodeType.operator, text: token.text }) %}
+operator -> ( %OPERATOR ) {% ([[token]]) => ({ type: NodeType.operator, text: token.text, start:token.start }) %}
 
 identifier ->
   ( %IDENTIFIER
   | %QUOTED_IDENTIFIER
-  | %VARIABLE ) {% ([[token]]) => ({ type: NodeType.identifier, quoted: token.type !== "IDENTIFIER", text: token.text }) %}
+  | %VARIABLE ) {% ([[token]]) => ({ type: NodeType.identifier, quoted: token.type !== "IDENTIFIER", text: token.text, start:token.start }) %}
 
 parameter ->
   ( %NAMED_PARAMETER
   | %QUOTED_PARAMETER
   | %NUMBERED_PARAMETER
   | %POSITIONAL_PARAMETER
-  | %CUSTOM_PARAMETER ) {% ([[token]]) => ({ type: NodeType.parameter, key: token.key, text: token.text }) %}
+  | %CUSTOM_PARAMETER ) {% ([[token]]) => ({ type: NodeType.parameter, key: token.key, text: token.text, start:token.start }) %}
 
 literal ->
   ( %NUMBER
-  | %STRING ) {% ([[token]]) => ({ type: NodeType.literal, text: token.text }) %}
+  | %STRING ) {% ([[token]]) => ({ type: NodeType.literal, text: token.text, start:token.start }) %}
 
 keyword ->
   ( %RESERVED_KEYWORD
@@ -344,6 +364,7 @@ data_type ->
 data_type -> %RESERVED_PARAMETERIZED_DATA_TYPE _ parenthesis {%
   ([nameToken, _, parens]) => ({
     type: NodeType.parameterized_data_type,
+    start: nameToken.start,
     dataType: addComments(toDataTypeNode(nameToken), { trailing: _ }),
     parenthesis: parens,
   })
@@ -369,6 +390,7 @@ _ -> comment:* {% ([comments]) => comments %}
 comment -> %LINE_COMMENT {%
   ([token]) => ({
     type: NodeType.line_comment,
+    start: token.start,
     text: token.text,
     precedingWhitespace: token.precedingWhitespace,
   })
@@ -376,6 +398,7 @@ comment -> %LINE_COMMENT {%
 comment -> %BLOCK_COMMENT {%
   ([token]) => ({
     type: NodeType.block_comment,
+    start: token.start,
     text: token.text,
     precedingWhitespace: token.precedingWhitespace,
   })
@@ -383,6 +406,7 @@ comment -> %BLOCK_COMMENT {%
 comment -> %DISABLE_COMMENT {%
   ([token]) => ({
     type: NodeType.disable_comment,
+    start: token.start,
     text: token.text,
     precedingWhitespace: token.precedingWhitespace,
   })
