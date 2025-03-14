@@ -1,0 +1,81 @@
+import dedent from 'dedent-js';
+import { format as originalFormat, FormatFn } from '../src/sqlFormatter.js';
+import behavesLikeSqlFormatter from './behavesLikeSqlFormatter.js';
+
+import supportsCreateTable from '../src/test/features/createTable.js';
+import supportsDropTable from '../src/test/features/dropTable.js';
+import supportsAlterTable from '../src/test/features/alterTable.js';
+import supportsSchema from '../src/test/features/schema.js';
+import supportsStrings from '../src/test/features/strings.js';
+import supportsBetween from '../src/test/features/between.js';
+import supportsJoin from '../src/test/features/join.js';
+import supportsOperators from '../src/test/features/operators.js';
+import supportsConstraints from '../src/test/features/constraints.js';
+import supportsDeleteFrom from '../src/test/features/deleteFrom.js';
+import supportsComments from '../src/test/features/comments.js';
+import supportsIdentifiers from '../src/test/features/identifiers.js';
+import supportsParams from '../src/test/options/param.js';
+import supportsWindow from '../src/test/features/window.js';
+import supportsSetOperations from '../src/test/features/setOperations.js';
+import supportsLimiting from '../src/test/features/limiting.js';
+import supportsInsertInto from '../src/test/features/insertInto.js';
+import supportsUpdate from '../src/test/features/update.js';
+import supportsCreateView from '../src/test/features/createView.js';
+import supportsOnConflict from '../src/test/features/onConflict.js';
+import supportsDataTypeCase from '../src/test/options/dataTypeCase.js';
+
+describe('SqliteFormatter', () => {
+  const language = 'sqlite';
+  const format: FormatFn = (query, cfg = {}) => originalFormat(query, { ...cfg, language });
+
+  behavesLikeSqlFormatter(format);
+  supportsComments(format);
+  supportsCreateView(format, { ifNotExists: true });
+  supportsCreateTable(format, { ifNotExists: true });
+  supportsDropTable(format, { ifExists: true });
+  supportsConstraints(format, ['SET NULL', 'SET DEFAULT', 'CASCADE', 'RESTRICT', 'NO ACTION']);
+  supportsAlterTable(format, {
+    addColumn: true,
+    dropColumn: true,
+    renameTo: true,
+    renameColumn: true,
+  });
+  supportsDeleteFrom(format);
+  supportsInsertInto(format);
+  supportsOnConflict(format);
+  supportsUpdate(format);
+  supportsStrings(format, ["''-qq", "X''"]);
+  supportsIdentifiers(format, [`""-qq`, '``', '[]']);
+  supportsBetween(format);
+  supportsSchema(format);
+  supportsJoin(format);
+  supportsSetOperations(format, ['UNION', 'UNION ALL', 'EXCEPT', 'INTERSECT']);
+  supportsOperators(format, ['%', '~', '&', '|', '<<', '>>', '==', '->', '->>', '||']);
+  supportsParams(format, { positional: true, numbered: ['?'], named: [':', '$', '@'] });
+  supportsWindow(format);
+  supportsLimiting(format, { limit: true, offset: true });
+  supportsDataTypeCase(format);
+
+  it('supports REPLACE INTO syntax', () => {
+    expect(format(`REPLACE INTO tbl VALUES (1,'Leopard'),(2,'Dog');`)).toBe(dedent`
+      REPLACE INTO
+        tbl
+      VALUES
+        (1, 'Leopard'),
+        (2, 'Dog');
+    `);
+  });
+
+  it('supports ON CONFLICT .. DO UPDATE syntax', () => {
+    expect(format(`INSERT INTO tbl VALUES (1,'Leopard') ON CONFLICT DO UPDATE SET foo=1;`))
+      .toBe(dedent`
+      INSERT INTO
+        tbl
+      VALUES
+        (1, 'Leopard')
+      ON CONFLICT DO UPDATE
+      SET
+        foo = 1;
+    `);
+  });
+});

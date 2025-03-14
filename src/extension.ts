@@ -31,18 +31,25 @@ export function activate(context: vscode.ExtensionContext) {
 			if (document.languageId === 'sql') {
 				const position = editor.selection.active;
 				const text = document.getText();
-				
-				// 计算光标在整个文本中的下标
-				const offset = document.offsetAt(position);
-				
-				const currentSql = extractCurrentSql(text, offset);
-				if (currentSql) {
-					// 同时显示SQL和光标位置
-					vscode.window.showInformationMessage(`Position: ${offset}, SQL: ${currentSql}`);
-				}else {
-					vscode.window.showInformationMessage(`No SQL found at position: ${offset}`);
+				// 获取光标所在位置的标识符的范围
+				const wordRange = document.getWordRangeAtPosition(position);
+				// 获取光标所在位置的标识符
+				if (wordRange) {
+					const currentWord = document.getText(wordRange);
+					// 计算光标在整个文本中的下标
+					const offset = document.offsetAt(position);
+
+					const currentSql = extractCurrentSql(text, offset);
+					if (currentSql) {
+						// 同时显示SQL和光标位置
+						vscode.window.showInformationMessage(`Position: ${offset}, SQL: ${currentSql}`);
+					} else {
+						vscode.window.showInformationMessage(`No SQL found at position: ${offset}`);
+					}
+				} else{
+					vscode.window.showInformationMessage(`No word found at position: ${position.line}:${position.character}`);
 				}
-				
+
 			}
 		}
 	});
@@ -51,23 +58,23 @@ export function activate(context: vscode.ExtensionContext) {
 	const hoverProvider = vscode.languages.registerHoverProvider('sql', {
 		provideHover(document: vscode.TextDocument, position: vscode.Position) {
 			const range = document.getWordRangeAtPosition(position, /\b((\w+)\.)?(\w+)\b/);
-			
+
 			if (range) {
 				const word = document.getText(range);
 				const parts = word.split('.');
-				
+
 				let content = new vscode.MarkdownString();
-				
+
 				if (parts.length === 2) {
 					content.appendMarkdown(`**表名**: ${parts[0]}\n\n`);
 					content.appendMarkdown(`**字段名**: ${parts[1]}`);
 				} else {
 					content.appendMarkdown(`**标识符**: ${word}`);
 				}
-				
+
 				return new vscode.Hover(content);
 			}
-			
+
 			return null;
 		}
 	});
@@ -78,47 +85,48 @@ export function activate(context: vscode.ExtensionContext) {
 }
 
 function extractCurrentSql(text: string, cursorPosition: number): string {
-    // 分隔符是分号
-    const delimiters = /;/g;
-    let match;
-    let startPos = 0;
-    let endPos = text.length;
-    
-    // 查找光标所在的SQL语句
-    while ((match = delimiters.exec(text)) !== null) {
-        if (match.index >= cursorPosition) {
-            endPos = match.index;
-            break;
-        }
-        startPos = match.index + 1;
-    }
-    
-    // 提取并清理SQL语句
-    let sql = text.substring(startPos, endPos).trim();
-    
-    // 检查是否为动态SQL
-    const dynamicSqlMatch = (sql+";").match(/EXECUTE\s+IMMEDIATE\s+'([^;]+)';/i);
-    if (dynamicSqlMatch) {
-        // 将变量替换为命名参数
-		sql = dynamicSqlMatch[1].replace(/'''\s*\|\|\s*(\w+)\s*\|\|\s*'''/g, ":$1");
-        // 提取动态SQL内容，并处理转义的单引号
-        sql = sql.replace(/''/g, "'");
-        
-    }
+	// 分隔符是分号
+	const delimiters = /;/g;
+	let match;
+	let startPos = 0;
+	let endPos = text.length;
+
+	// 查找光标所在的SQL语句
+	while ((match = delimiters.exec(text)) !== null) {
+		if (match.index >= cursorPosition) {
+			endPos = match.index;
+			break;
+		}
+		startPos = match.index + 1;
+	}
+
+	// 提取并清理SQL语句
+	let sql = text.substring(startPos, endPos).trim();
+
+	// 检查是否为动态SQL
+	const dynamicSqlMatch = (sql + ";").match(/EXECUTE\s+IMMEDIATE\s+'([^;]+)'\s*;/i);
+	if (dynamicSqlMatch) {
+		// 将变量替换为命名参数
+		sql = dynamicSqlMatch[1];
+		// sql = dynamicSqlMatch[1].replace(/'''\s*\|\|\s*(\w+)\s*\|\|\s*'''/g, ":$1");
+		// 提取动态SQL内容，并处理转义的单引号
+		sql = sql.replace(/''/g, "'");
+
+	}
 
 
-    // 如果是空的，返回null
-    if (!sql) {
-        console.log(`No sql extracted.`);
-        return '';
-    }
-    // 输出提取的SQL语句到DEBUG CONSOLE
-    console.log(`Extracted SQL: \n${sql}`);
+	// 如果是空的，返回null
+	if (!sql) {
+		console.log(`No sql extracted.`);
+		return '';
+	}
+	// 输出提取的SQL语句到DEBUG CONSOLE
+	console.log(`Extracted SQL: \n${sql}`);
 
 	let lineage = lineager(sql, { language: 'plsql' });
- 
-    return sql;
+
+	return sql;
 }
 
 // This method is called when your extension is deactivated
-export function deactivate() {}
+export function deactivate() { }

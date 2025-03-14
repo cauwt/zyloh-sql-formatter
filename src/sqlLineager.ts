@@ -10,6 +10,7 @@ export interface LineageOptions {
   includeSubqueries?: boolean;    // 是否包含子查询的血缘关系
   includeViews?: boolean;         // 是否包含视图的血缘关系
   includeCTE?: boolean;           // 是否包含CTE的血缘关系
+  dynmicSQL?: boolean;            // 是否包含动态SQL的血缘关系
 }
 
 
@@ -17,6 +18,7 @@ const defaultOptions: LineageOptions = {
   includeSubqueries: true,
   includeViews: true,
   includeCTE: true,
+  dynmicSQL: false,
 };
 
 const dialectNameMap: Record<keyof typeof allDialects | 'tsql', keyof typeof allDialects> = {
