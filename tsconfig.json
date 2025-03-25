@@ -3,7 +3,7 @@
       "module": "NodeNext",
       "target": "ES2019",
       "lib": ["ES2019", "dom"],
-      "rootDirs": ["src"],
+      "rootDirs": ["src", "test"],
       "outDir": "./out",
       "baseUrl": "./",
       "sourceMap": true,
