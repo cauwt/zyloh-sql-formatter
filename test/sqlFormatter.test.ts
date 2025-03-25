@@ -1,6 +1,6 @@
 import dedent from 'dedent-js';
 
-import { format, formatDialect, SqlLanguage, sqlite, DialectOptions } from '../index';
+import { format, formatDialect, SqlLanguage, sqlite, DialectOptions } from '../src/index';
 
 describe('sqlFormatter', () => {
   it('throws error when unsupported language parameter specified', () => {

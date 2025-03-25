@@ -1,4 +1,4 @@
-import { NestedComment } from '../../lexer/NestedComment';
+import { NestedComment } from '../../src/lexer/NestedComment';
 
 describe('NestedComment', () => {
   const match = (input: string, index: number) => {

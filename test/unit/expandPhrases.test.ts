@@ -1,4 +1,4 @@
-import { expandSinglePhrase } from '../../expandPhrases';
+import { expandSinglePhrase } from '../../src/expandPhrases';
 
 describe('expandSinglePhrase()', () => {
   it('returns single item when no [optional blocks] found', () => {
