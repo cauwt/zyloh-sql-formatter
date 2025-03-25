@@ -154,7 +154,7 @@ const grammar: Grammar = {
     {"name": "statement", "symbols": ["expressions_or_clauses", "statement$subexpression$1"], "postprocess": 
         ([children, [delimiter]]) => ({
           type: NodeType.statement,
-          start: children?children.start:undefined,
+          start: children.start,
           children,
           hasSemicolon: delimiter.type === TokenType.DELIMITER,
         })

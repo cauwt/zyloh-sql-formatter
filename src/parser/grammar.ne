@@ -85,7 +85,7 @@ main -> statement:* {%
 statement -> expressions_or_clauses (%DELIMITER | %EOF) {%
   ([children, [delimiter]]) => ({
     type: NodeType.statement,
-    start: children?children.start:undefined,
+    start: children.start,
     children,
     hasSemicolon: delimiter.type === TokenType.DELIMITER,
   })
