@@ -1,5 +1,5 @@
 import dedent from 'dedent-js';
-import { FormatFn } from '../../sqlFormatter.js';
+import { FormatFn } from '../../sqlFormatter';
 
 export default function supportsIsDistinctFrom(format: FormatFn) {
   // Regression test for #564

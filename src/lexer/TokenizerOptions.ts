@@ -1,5 +1,5 @@
-import { quotePatterns } from './regexFactory.js';
-import { Token } from './token.js';
+import { quotePatterns } from './regexFactory';
+import { Token } from './token';
 
 export interface IdentChars {
   // Additional characters that can be used as first character of an identifier.

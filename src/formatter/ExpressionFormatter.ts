@@ -1,9 +1,9 @@
-import { FormatOptions } from '../FormatOptions.js';
-import { equalizeWhitespace, isMultiline, last } from '../utils.js';
+import { FormatOptions } from '../FormatOptions';
+import { equalizeWhitespace, isMultiline, last } from '../utils';
 
-import Params from './Params.js';
-import { isTabularStyle } from './config.js';
-import { TokenType } from '../lexer/token.js';
+import Params from './Params';
+import { isTabularStyle } from './config';
+import { TokenType } from '../lexer/token';
 import {
   AllColumnsAsteriskNode,
   ArraySubscriptNode,
@@ -31,11 +31,11 @@ import {
   DataTypeNode,
   ParameterizedDataTypeNode,
   DisableCommentNode,
-} from '../parser/ast.js';
+} from '../parser/ast';
 
-import Layout, { WS } from './Layout.js';
-import toTabularFormat, { isTabularToken } from './tabularStyle.js';
-import InlineLayout, { InlineLayoutError } from './InlineLayout.js';
+import Layout, { WS } from './Layout';
+import toTabularFormat, { isTabularToken } from './tabularStyle';
+import InlineLayout, { InlineLayoutError } from './InlineLayout';
 
 interface ExpressionFormatterParams {
   cfg: FormatOptions;

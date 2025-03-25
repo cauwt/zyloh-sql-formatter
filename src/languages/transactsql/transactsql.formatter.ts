@@ -1,7 +1,7 @@
-import { DialectOptions } from '../../dialect.js';
-import { expandPhrases } from '../../expandPhrases.js';
-import { functions } from './transactsql.functions.js';
-import { dataTypes, keywords } from './transactsql.keywords.js';
+import { DialectOptions } from '../../dialect';
+import { expandPhrases } from '../../expandPhrases';
+import { functions } from './transactsql.functions';
+import { dataTypes, keywords } from './transactsql.keywords';
 
 const reservedSelect = expandPhrases(['SELECT [ALL | DISTINCT]']);
 

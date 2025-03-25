@@ -1,6 +1,6 @@
 import dedent from 'dedent-js';
 
-import { FormatFn } from '../../sqlFormatter.js';
+import { FormatFn } from '../../sqlFormatter';
 
 export default function supportsWindow(format: FormatFn) {
   it('formats WINDOW clause at top level', () => {

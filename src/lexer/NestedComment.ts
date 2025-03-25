@@ -1,5 +1,5 @@
 /* eslint-disable no-cond-assign */
-import { RegExpLike } from './TokenizerEngine.js';
+import { RegExpLike } from './TokenizerEngine';
 
 const START = /\/\*/uy; // matches: /*
 const ANY_CHAR = /[\s\S]/uy; // matches single character

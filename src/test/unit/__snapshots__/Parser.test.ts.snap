@@ -1,806 +1,955 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Parser parses BETWEEN expression 1`] = `
-Array [
-  Object {
-    "children": Array [
-      Object {
-        "children": Array [
-          Object {
+[
+  {
+    "children": [
+      {
+        "children": [
+          {
             "quoted": false,
+            "start": 6,
             "text": "age",
             "type": "identifier",
           },
-          Object {
-            "andKw": Object {
+          {
+            "andKw": {
               "raw": "AND",
+              "start": 21,
               "text": "AND",
               "tokenType": "AND",
               "type": "keyword",
             },
-            "betweenKw": Object {
+            "betweenKw": {
               "raw": "BETWEEN",
+              "start": 10,
               "text": "BETWEEN",
               "tokenType": "BETWEEN",
               "type": "keyword",
             },
-            "expr1": Array [
-              Object {
+            "expr1": [
+              {
+                "start": 18,
                 "text": "18",
                 "type": "literal",
               },
             ],
-            "expr2": Array [
-              Object {
+            "expr2": [
+              {
+                "start": 25,
                 "text": "63",
                 "type": "literal",
               },
             ],
+            "start": 10,
             "type": "between_predicate",
           },
         ],
-        "nameKw": Object {
+        "nameKw": {
           "raw": "WHERE",
+          "start": 0,
           "text": "WHERE",
           "tokenType": "RESERVED_CLAUSE",
           "type": "keyword",
         },
+        "start": 0,
         "type": "clause",
       },
     ],
     "hasSemicolon": false,
+    "start": undefined,
     "type": "statement",
   },
 ]
 `;
 
 exports[`Parser parses CASE expression 1`] = `
-Array [
-  Object {
-    "children": Array [
-      Object {
-        "children": Array [
-          Object {
-            "caseKw": Object {
+[
+  {
+    "children": [
+      {
+        "children": [
+          {
+            "caseKw": {
               "raw": "CASE",
+              "start": 7,
               "text": "CASE",
               "tokenType": "CASE",
               "type": "keyword",
             },
-            "clauses": Array [
-              Object {
-                "condition": Array [
-                  Object {
+            "clauses": [
+              {
+                "condition": [
+                  {
+                    "start": 21,
                     "text": "1",
                     "type": "literal",
                   },
-                  Object {
+                  {
+                    "start": 22,
                     "text": "+",
                     "type": "operator",
                   },
-                  Object {
+                  {
+                    "start": 23,
                     "text": "1",
                     "type": "literal",
                   },
                 ],
-                "result": Array [
-                  Object {
+                "result": [
+                  {
+                    "start": 30,
                     "text": "10",
                     "type": "literal",
                   },
                 ],
-                "thenKw": Object {
+                "start": 16,
+                "thenKw": {
                   "raw": "THEN",
+                  "start": 25,
                   "text": "THEN",
                   "tokenType": "THEN",
                   "type": "keyword",
                 },
                 "type": "case_when",
-                "whenKw": Object {
+                "whenKw": {
                   "raw": "WHEN",
+                  "start": 16,
                   "text": "WHEN",
                   "tokenType": "WHEN",
                   "type": "keyword",
                 },
               },
-              Object {
-                "elseKw": Object {
+              {
+                "elseKw": {
                   "raw": "ELSE",
+                  "start": 33,
                   "text": "ELSE",
                   "tokenType": "ELSE",
                   "type": "keyword",
                 },
-                "result": Array [
-                  Object {
+                "result": [
+                  {
+                    "start": 38,
                     "text": "20",
                     "type": "literal",
                   },
                 ],
+                "start": 33,
                 "type": "case_else",
               },
             ],
-            "endKw": Object {
+            "endKw": {
               "raw": "END",
+              "start": 41,
               "text": "END",
               "tokenType": "END",
               "type": "keyword",
             },
-            "expr": Array [
-              Object {
+            "expr": [
+              {
                 "quoted": false,
+                "start": 12,
                 "text": "foo",
                 "type": "identifier",
               },
             ],
+            "start": 7,
             "type": "case_expression",
           },
         ],
-        "nameKw": Object {
+        "nameKw": {
           "raw": "SELECT",
+          "start": 0,
           "text": "SELECT",
           "tokenType": "RESERVED_SELECT",
           "type": "keyword",
         },
+        "start": 0,
         "type": "clause",
       },
     ],
     "hasSemicolon": true,
+    "start": undefined,
     "type": "statement",
   },
 ]
 `;
 
 exports[`Parser parses LIMIT clause with count 1`] = `
-Array [
-  Object {
-    "children": Array [
-      Object {
-        "count": Array [
-          Object {
+[
+  {
+    "children": [
+      {
+        "count": [
+          {
+            "start": 6,
             "text": "15",
             "type": "literal",
           },
         ],
-        "limitKw": Object {
+        "limitKw": {
           "raw": "LIMIT",
+          "start": 0,
           "text": "LIMIT",
           "tokenType": "LIMIT",
           "type": "keyword",
         },
+        "start": 0,
         "type": "limit_clause",
       },
     ],
     "hasSemicolon": true,
+    "start": undefined,
     "type": "statement",
   },
 ]
 `;
 
 exports[`Parser parses LIMIT clause with longer expressions 1`] = `
-Array [
-  Object {
-    "children": Array [
-      Object {
-        "count": Array [
-          Object {
+[
+  {
+    "children": [
+      {
+        "count": [
+          {
+            "start": 15,
             "text": "3",
             "type": "literal",
           },
-          Object {
+          {
+            "start": 17,
             "text": "*",
             "type": "operator",
           },
-          Object {
+          {
+            "start": 19,
             "text": "2",
             "type": "literal",
           },
         ],
-        "limitKw": Object {
+        "limitKw": {
           "raw": "LIMIT",
+          "start": 0,
           "text": "LIMIT",
           "tokenType": "LIMIT",
           "type": "keyword",
         },
-        "offset": Array [
-          Object {
+        "offset": [
+          {
+            "start": 6,
             "text": "50",
             "type": "literal",
           },
-          Object {
+          {
+            "start": 9,
             "text": "+",
             "type": "operator",
           },
-          Object {
+          {
+            "start": 11,
             "text": "50",
             "type": "literal",
           },
         ],
+        "start": 0,
         "type": "limit_clause",
       },
     ],
     "hasSemicolon": true,
+    "start": undefined,
     "type": "statement",
   },
 ]
 `;
 
 exports[`Parser parses LIMIT clause with offset and count 1`] = `
-Array [
-  Object {
-    "children": Array [
-      Object {
-        "count": Array [
-          Object {
+[
+  {
+    "children": [
+      {
+        "count": [
+          {
+            "start": 11,
             "text": "15",
             "type": "literal",
           },
         ],
-        "limitKw": Object {
+        "limitKw": {
           "raw": "LIMIT",
+          "start": 0,
           "text": "LIMIT",
           "tokenType": "LIMIT",
           "type": "keyword",
         },
-        "offset": Array [
-          Object {
+        "offset": [
+          {
+            "start": 6,
             "text": "100",
             "type": "literal",
           },
         ],
+        "start": 0,
         "type": "limit_clause",
       },
     ],
     "hasSemicolon": true,
+    "start": undefined,
     "type": "statement",
   },
 ]
 `;
 
 exports[`Parser parses SELECT * 1`] = `
-Array [
-  Object {
-    "children": Array [
-      Object {
-        "children": Array [
-          Object {
+[
+  {
+    "children": [
+      {
+        "children": [
+          {
+            "start": {
+              "precedingWhitespace": " ",
+              "raw": "*",
+              "start": 7,
+              "text": "*",
+              "type": "ASTERISK",
+            },
             "type": "all_columns_asterisk",
           },
         ],
-        "nameKw": Object {
+        "nameKw": {
           "raw": "SELECT",
+          "start": 0,
           "text": "SELECT",
           "tokenType": "RESERVED_SELECT",
           "type": "keyword",
         },
+        "start": 0,
         "type": "clause",
       },
     ],
     "hasSemicolon": false,
+    "start": undefined,
     "type": "statement",
   },
 ]
 `;
 
 exports[`Parser parses SELECT ident.* 1`] = `
-Array [
-  Object {
-    "children": Array [
-      Object {
-        "children": Array [
-          Object {
-            "object": Object {
+[
+  {
+    "children": [
+      {
+        "children": [
+          {
+            "object": {
               "quoted": false,
+              "start": 7,
               "text": "ident",
               "type": "identifier",
             },
             "operator": ".",
-            "property": Object {
+            "property": {
+              "start": {
+                "precedingWhitespace": undefined,
+                "raw": "*",
+                "start": 13,
+                "text": "*",
+                "type": "ASTERISK",
+              },
               "type": "all_columns_asterisk",
             },
+            "start": 7,
             "type": "property_access",
           },
         ],
-        "nameKw": Object {
+        "nameKw": {
           "raw": "SELECT",
+          "start": 0,
           "text": "SELECT",
           "tokenType": "RESERVED_SELECT",
           "type": "keyword",
         },
+        "start": 0,
         "type": "clause",
       },
     ],
     "hasSemicolon": false,
+    "start": undefined,
     "type": "statement",
   },
 ]
 `;
 
 exports[`Parser parses array subscript 1`] = `
-Array [
-  Object {
-    "children": Array [
-      Object {
-        "children": Array [
-          Object {
-            "array": Object {
+[
+  {
+    "children": [
+      {
+        "children": [
+          {
+            "array": {
               "quoted": false,
               "text": "my_array",
               "type": "identifier",
             },
-            "parenthesis": Object {
-              "children": Array [
-                Object {
+            "parenthesis": {
+              "children": [
+                {
+                  "start": 16,
                   "text": "5",
                   "type": "literal",
                 },
               ],
               "closeParen": "]",
               "openParen": "[",
+              "start": 15,
               "type": "parenthesis",
             },
+            "start": 7,
             "type": "array_subscript",
           },
         ],
-        "nameKw": Object {
+        "nameKw": {
           "raw": "SELECT",
+          "start": 0,
           "text": "SELECT",
           "tokenType": "RESERVED_SELECT",
           "type": "keyword",
         },
+        "start": 0,
         "type": "clause",
       },
     ],
     "hasSemicolon": false,
+    "start": undefined,
     "type": "statement",
   },
 ]
 `;
 
 exports[`Parser parses array subscript with comment 1`] = `
-Array [
-  Object {
-    "children": Array [
-      Object {
-        "children": Array [
-          Object {
-            "array": Object {
+[
+  {
+    "children": [
+      {
+        "children": [
+          {
+            "array": {
               "quoted": false,
               "text": "my_array",
-              "trailingComments": Array [
-                Object {
+              "trailingComments": [
+                {
                   "precedingWhitespace": " ",
+                  "start": 16,
                   "text": "/*haha*/",
                   "type": "block_comment",
                 },
               ],
               "type": "identifier",
             },
-            "parenthesis": Object {
-              "children": Array [
-                Object {
+            "parenthesis": {
+              "children": [
+                {
+                  "start": 26,
                   "text": "5",
                   "type": "literal",
                 },
               ],
               "closeParen": "]",
               "openParen": "[",
+              "start": 25,
               "type": "parenthesis",
             },
+            "start": 7,
             "type": "array_subscript",
           },
         ],
-        "nameKw": Object {
+        "nameKw": {
           "raw": "SELECT",
+          "start": 0,
           "text": "SELECT",
           "tokenType": "RESERVED_SELECT",
           "type": "keyword",
         },
+        "start": 0,
         "type": "clause",
       },
     ],
     "hasSemicolon": false,
+    "start": undefined,
     "type": "statement",
   },
 ]
 `;
 
 exports[`Parser parses curly braces 1`] = `
-Array [
-  Object {
-    "children": Array [
-      Object {
-        "children": Array [
-          Object {
-            "children": Array [
-              Object {
+[
+  {
+    "children": [
+      {
+        "children": [
+          {
+            "children": [
+              {
                 "quoted": false,
+                "start": 8,
                 "text": "foo",
                 "type": "identifier",
               },
-              Object {
+              {
+                "start": 11,
                 "text": ":",
                 "type": "operator",
               },
-              Object {
+              {
                 "quoted": false,
+                "start": 13,
                 "text": "bar",
                 "type": "identifier",
               },
             ],
             "closeParen": "}",
             "openParen": "{",
+            "start": 7,
             "type": "parenthesis",
           },
         ],
-        "nameKw": Object {
+        "nameKw": {
           "raw": "SELECT",
+          "start": 0,
           "text": "SELECT",
           "tokenType": "RESERVED_SELECT",
           "type": "keyword",
         },
+        "start": 0,
         "type": "clause",
       },
     ],
     "hasSemicolon": true,
+    "start": undefined,
     "type": "statement",
   },
 ]
 `;
 
 exports[`Parser parses function call 1`] = `
-Array [
-  Object {
-    "children": Array [
-      Object {
-        "children": Array [
-          Object {
-            "nameKw": Object {
+[
+  {
+    "children": [
+      {
+        "children": [
+          {
+            "nameKw": {
               "raw": "sqrt",
+              "start": 7,
               "text": "SQRT",
               "tokenType": "RESERVED_FUNCTION_NAME",
               "type": "keyword",
             },
-            "parenthesis": Object {
-              "children": Array [
-                Object {
+            "parenthesis": {
+              "children": [
+                {
+                  "start": 12,
                   "text": "2",
                   "type": "literal",
                 },
               ],
               "closeParen": ")",
               "openParen": "(",
+              "start": 11,
               "type": "parenthesis",
             },
+            "start": 7,
             "type": "function_call",
           },
         ],
-        "nameKw": Object {
+        "nameKw": {
           "raw": "SELECT",
+          "start": 0,
           "text": "SELECT",
           "tokenType": "RESERVED_SELECT",
           "type": "keyword",
         },
+        "start": 0,
         "type": "clause",
       },
     ],
     "hasSemicolon": false,
+    "start": undefined,
     "type": "statement",
   },
 ]
 `;
 
 exports[`Parser parses function name with and without parameters 1`] = `
-Array [
-  Object {
-    "children": Array [
-      Object {
-        "children": Array [
-          Object {
+[
+  {
+    "children": [
+      {
+        "children": [
+          {
             "quoted": false,
+            "start": 7,
             "text": "CURRENT_TIME",
             "type": "identifier",
           },
-          Object {
+          {
             "quoted": false,
+            "start": 20,
             "text": "a",
             "type": "identifier",
           },
-          Object {
+          {
+            "start": 21,
             "type": "comma",
           },
-          Object {
-            "nameKw": Object {
+          {
+            "nameKw": {
               "raw": "CURRENT_TIME",
+              "start": 23,
               "text": "CURRENT_TIME",
               "tokenType": "RESERVED_FUNCTION_NAME",
               "type": "keyword",
             },
-            "parenthesis": Object {
-              "children": Array [],
+            "parenthesis": {
+              "children": [],
               "closeParen": ")",
               "openParen": "(",
+              "start": 35,
               "type": "parenthesis",
             },
+            "start": 23,
             "type": "function_call",
           },
-          Object {
+          {
             "quoted": false,
+            "start": 38,
             "text": "b",
             "type": "identifier",
           },
         ],
-        "nameKw": Object {
+        "nameKw": {
           "raw": "SELECT",
+          "start": 0,
           "text": "SELECT",
           "tokenType": "RESERVED_SELECT",
           "type": "keyword",
         },
+        "start": 0,
         "type": "clause",
       },
     ],
     "hasSemicolon": true,
+    "start": undefined,
     "type": "statement",
   },
 ]
 `;
 
 exports[`Parser parses list of statements 1`] = `
-Array [
-  Object {
-    "children": Array [
-      Object {
+[
+  {
+    "children": [
+      {
         "quoted": false,
+        "start": 0,
         "text": "foo",
         "type": "identifier",
       },
     ],
     "hasSemicolon": true,
+    "start": undefined,
     "type": "statement",
   },
-  Object {
-    "children": Array [
-      Object {
+  {
+    "children": [
+      {
         "quoted": false,
+        "start": 5,
         "text": "bar",
         "type": "identifier",
       },
     ],
     "hasSemicolon": false,
+    "start": undefined,
     "type": "statement",
   },
 ]
 `;
 
 exports[`Parser parses parenthesized expressions 1`] = `
-Array [
-  Object {
-    "children": Array [
-      Object {
-        "children": Array [
-          Object {
-            "children": Array [
-              Object {
+[
+  {
+    "children": [
+      {
+        "children": [
+          {
+            "children": [
+              {
                 "quoted": false,
+                "start": 8,
                 "text": "birth_year",
                 "type": "identifier",
               },
-              Object {
+              {
+                "start": 19,
                 "text": "-",
                 "type": "operator",
               },
-              Object {
-                "children": Array [
-                  Object {
+              {
+                "children": [
+                  {
                     "quoted": false,
+                    "start": 22,
                     "text": "CURRENT_DATE",
                     "type": "identifier",
                   },
-                  Object {
+                  {
+                    "start": 35,
                     "text": "+",
                     "type": "operator",
                   },
-                  Object {
+                  {
+                    "start": 37,
                     "text": "1",
                     "type": "literal",
                   },
                 ],
                 "closeParen": ")",
                 "openParen": "(",
+                "start": 21,
                 "type": "parenthesis",
               },
             ],
             "closeParen": ")",
             "openParen": "(",
+            "start": 7,
             "type": "parenthesis",
           },
         ],
-        "nameKw": Object {
+        "nameKw": {
           "raw": "SELECT",
+          "start": 0,
           "text": "SELECT",
           "tokenType": "RESERVED_SELECT",
           "type": "keyword",
         },
+        "start": 0,
         "type": "clause",
       },
     ],
     "hasSemicolon": false,
+    "start": undefined,
     "type": "statement",
   },
 ]
 `;
 
 exports[`Parser parses qualified.identifier.sequence 1`] = `
-Array [
-  Object {
-    "children": Array [
-      Object {
-        "children": Array [
-          Object {
-            "object": Object {
-              "object": Object {
+[
+  {
+    "children": [
+      {
+        "children": [
+          {
+            "object": {
+              "object": {
                 "quoted": false,
+                "start": 7,
                 "text": "foo",
                 "type": "identifier",
               },
               "operator": ".",
-              "property": Object {
+              "property": {
                 "quoted": false,
+                "start": 11,
                 "text": "bar",
                 "type": "identifier",
               },
+              "start": 7,
               "type": "property_access",
             },
             "operator": ".",
-            "property": Object {
+            "property": {
               "quoted": false,
+              "start": 15,
               "text": "baz",
               "type": "identifier",
             },
+            "start": 7,
             "type": "property_access",
           },
         ],
-        "nameKw": Object {
+        "nameKw": {
           "raw": "SELECT",
+          "start": 0,
           "text": "SELECT",
           "tokenType": "RESERVED_SELECT",
           "type": "keyword",
         },
+        "start": 0,
         "type": "clause",
       },
     ],
     "hasSemicolon": true,
+    "start": undefined,
     "type": "statement",
   },
 ]
 `;
 
 exports[`Parser parses set operations 1`] = `
-Array [
-  Object {
-    "children": Array [
-      Object {
-        "children": Array [
-          Object {
+[
+  {
+    "children": [
+      {
+        "children": [
+          {
             "quoted": false,
+            "start": 7,
             "text": "foo",
             "type": "identifier",
           },
         ],
-        "nameKw": Object {
+        "nameKw": {
           "raw": "SELECT",
+          "start": 0,
           "text": "SELECT",
           "tokenType": "RESERVED_SELECT",
           "type": "keyword",
         },
+        "start": 0,
         "type": "clause",
       },
-      Object {
-        "children": Array [
-          Object {
+      {
+        "children": [
+          {
             "quoted": false,
+            "start": 16,
             "text": "bar",
             "type": "identifier",
           },
         ],
-        "nameKw": Object {
+        "nameKw": {
           "raw": "FROM",
+          "start": 11,
           "text": "FROM",
           "tokenType": "RESERVED_CLAUSE",
           "type": "keyword",
         },
+        "start": 11,
         "type": "clause",
       },
-      Object {
-        "children": Array [],
-        "nameKw": Object {
+      {
+        "children": [],
+        "nameKw": {
           "raw": "UNION ALL",
+          "start": 20,
           "text": "UNION ALL",
           "tokenType": "RESERVED_SET_OPERATION",
           "type": "keyword",
         },
+        "start": 20,
         "type": "set_operation",
       },
-      Object {
-        "children": Array [
-          Object {
+      {
+        "children": [
+          {
             "quoted": false,
+            "start": 37,
             "text": "foo",
             "type": "identifier",
           },
         ],
-        "nameKw": Object {
+        "nameKw": {
           "raw": "SELECT",
+          "start": 30,
           "text": "SELECT",
           "tokenType": "RESERVED_SELECT",
           "type": "keyword",
         },
+        "start": 30,
         "type": "clause",
       },
-      Object {
-        "children": Array [
-          Object {
+      {
+        "children": [
+          {
             "quoted": false,
+            "start": 46,
             "text": "baz",
             "type": "identifier",
           },
         ],
-        "nameKw": Object {
+        "nameKw": {
           "raw": "FROM",
+          "start": 41,
           "text": "FROM",
           "tokenType": "RESERVED_CLAUSE",
           "type": "keyword",
         },
+        "start": 41,
         "type": "clause",
       },
     ],
     "hasSemicolon": false,
+    "start": undefined,
     "type": "statement",
   },
 ]
 `;
 
 exports[`Parser parses square brackets 1`] = `
-Array [
-  Object {
-    "children": Array [
-      Object {
-        "children": Array [
-          Object {
-            "children": Array [
-              Object {
+[
+  {
+    "children": [
+      {
+        "children": [
+          {
+            "children": [
+              {
+                "start": 8,
                 "text": "1",
                 "type": "literal",
               },
-              Object {
+              {
+                "start": 9,
                 "type": "comma",
               },
-              Object {
+              {
+                "start": 11,
                 "text": "2",
                 "type": "literal",
               },
-              Object {
+              {
+                "start": 12,
                 "type": "comma",
               },
-              Object {
+              {
+                "start": 14,
                 "text": "3",
                 "type": "literal",
               },
             ],
             "closeParen": "]",
             "openParen": "[",
+            "start": 7,
             "type": "parenthesis",
           },
         ],
-        "nameKw": Object {
+        "nameKw": {
           "raw": "SELECT",
+          "start": 0,
           "text": "SELECT",
           "tokenType": "RESERVED_SELECT",
           "type": "keyword",
         },
+        "start": 0,
         "type": "clause",
       },
     ],
     "hasSemicolon": true,
+    "start": undefined,
     "type": "statement",
   },
 ]

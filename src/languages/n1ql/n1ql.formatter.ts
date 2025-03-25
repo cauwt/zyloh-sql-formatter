@@ -1,7 +1,7 @@
-import { DialectOptions } from '../../dialect.js';
-import { expandPhrases } from '../../expandPhrases.js';
-import { functions } from './n1ql.functions.js';
-import { dataTypes, keywords } from './n1ql.keywords.js';
+import { DialectOptions } from '../../dialect';
+import { expandPhrases } from '../../expandPhrases';
+import { functions } from './n1ql.functions';
+import { dataTypes, keywords } from './n1ql.keywords';
 
 const reservedSelect = expandPhrases(['SELECT [ALL | DISTINCT]']);
 

@@ -1,9 +1,9 @@
 import {
   DialectFormatOptions,
   ProcessedDialectFormatOptions,
-} from './formatter/ExpressionFormatter.js';
-import Tokenizer from './lexer/Tokenizer.js';
-import { TokenizerOptions } from './lexer/TokenizerOptions.js';
+} from './formatter/ExpressionFormatter';
+import Tokenizer from './lexer/Tokenizer';
+import { TokenizerOptions } from './lexer/TokenizerOptions';
 
 export interface DialectOptions {
   name: string;

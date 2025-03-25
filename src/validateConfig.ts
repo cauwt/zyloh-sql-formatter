@@ -1,6 +1,6 @@
-import { FormatOptions } from './FormatOptions.js';
-import { ParamItems } from './formatter/Params.js';
-import { ParamTypes } from './lexer/TokenizerOptions.js';
+import { FormatOptions } from './FormatOptions';
+import { ParamItems } from './formatter/Params';
+import { ParamTypes } from './lexer/TokenizerOptions';
 
 export class ConfigError extends Error {}
 

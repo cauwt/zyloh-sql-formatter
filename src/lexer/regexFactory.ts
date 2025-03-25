@@ -1,7 +1,7 @@
-import { sortByLengthDesc } from '../utils.js';
+import { sortByLengthDesc } from '../utils';
 
-import { IdentChars, QuoteType, VariableType } from './TokenizerOptions.js';
-import { escapeRegExp, patternToRegex, prefixesPattern, withDashes } from './regexUtil.js';
+import { IdentChars, QuoteType, VariableType } from './TokenizerOptions';
+import { escapeRegExp, patternToRegex, prefixesPattern, withDashes } from './regexUtil';
 
 /**
  * Builds a RegExp for valid line comments in a SQL dialect

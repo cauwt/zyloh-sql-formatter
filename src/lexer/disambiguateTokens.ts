@@ -1,4 +1,4 @@
-import { isReserved, Token, TokenType } from './token.js';
+import { isReserved, Token, TokenType } from './token';
 
 /**
  * Ensures that no keyword token (RESERVED_*) is preceded or followed by a dot (.)

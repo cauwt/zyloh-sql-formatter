@@ -1,7 +1,7 @@
-import { DialectOptions } from '../../dialect.js';
-import { expandPhrases } from '../../expandPhrases.js';
-import { functions } from './redshift.functions.js';
-import { dataTypes, keywords } from './redshift.keywords.js';
+import { DialectOptions } from '../../dialect';
+import { expandPhrases } from '../../expandPhrases';
+import { functions } from './redshift.functions';
+import { dataTypes, keywords } from './redshift.keywords';
 
 const reservedSelect = expandPhrases(['SELECT [ALL | DISTINCT]']);
 

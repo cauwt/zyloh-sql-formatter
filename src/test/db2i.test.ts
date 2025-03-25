@@ -1,14 +1,14 @@
-import { format as originalFormat, FormatFn } from '../sqlFormatter.js';
-import behavesLikeDb2Formatter from './behavesLikeDb2Formatter.js';
-import supportsComments from './features/comments.js';
+import { format as originalFormat, FormatFn } from '../sqlFormatter';
+import behavesLikeDb2Formatter from './behavesLikeDb2Formatter';
+import supportsComments from './features/comments';
 
-import supportsCreateTable from './features/createTable.js';
-import supportsAlterTable from './features/alterTable.js';
-import supportsDropTable from './features/dropTable.js';
-import supportsJoin from './features/join.js';
-import supportsOperators from './features/operators.js';
-import supportsLimiting from './features/limiting.js';
-import supportsDataTypeCase from './options/dataTypeCase.js';
+import supportsCreateTable from './features/createTable';
+import supportsAlterTable from './features/alterTable';
+import supportsDropTable from './features/dropTable';
+import supportsJoin from './features/join';
+import supportsOperators from './features/operators';
+import supportsLimiting from './features/limiting';
+import supportsDataTypeCase from './options/dataTypeCase';
 
 describe('Db2iFormatter', () => {
   const language = 'db2i';

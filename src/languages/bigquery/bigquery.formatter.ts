@@ -1,8 +1,8 @@
-import { DialectOptions } from '../../dialect.js';
-import { expandPhrases } from '../../expandPhrases.js';
-import { EOF_TOKEN, isToken, Token, TokenType } from '../../lexer/token.js';
-import { functions } from './bigquery.functions.js';
-import { dataTypes, keywords } from './bigquery.keywords.js';
+import { DialectOptions } from '../../dialect';
+import { expandPhrases } from '../../expandPhrases';
+import { EOF_TOKEN, isToken, Token, TokenType } from '../../lexer/token';
+import { functions } from './bigquery.functions';
+import { dataTypes, keywords } from './bigquery.keywords';
 
 const reservedSelect = expandPhrases(['SELECT [ALL | DISTINCT] [AS STRUCT | AS VALUE]']);
 

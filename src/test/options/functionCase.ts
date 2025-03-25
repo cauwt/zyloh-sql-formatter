@@ -1,6 +1,6 @@
 import dedent from 'dedent-js';
 
-import { FormatFn } from '../../sqlFormatter.js';
+import { FormatFn } from '../../sqlFormatter';
 
 export default function supportsFunctionCase(format: FormatFn) {
   it('preserves function name case by default', () => {

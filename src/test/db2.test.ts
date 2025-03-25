@@ -1,17 +1,17 @@
 import dedent from 'dedent-js';
 
-import { format as originalFormat, FormatFn } from '../sqlFormatter.js';
-import behavesLikeDb2Formatter from './behavesLikeDb2Formatter.js';
+import { format as originalFormat, FormatFn } from '../sqlFormatter';
+import behavesLikeDb2Formatter from './behavesLikeDb2Formatter';
 
-import supportsCreateTable from './features/createTable.js';
-import supportsAlterTable from './features/alterTable.js';
-import supportsDropTable from './features/dropTable.js';
-import supportsJoin from './features/join.js';
-import supportsStrings from './features/strings.js';
-import supportsComments from './features/comments.js';
-import supportsOperators from './features/operators.js';
-import supportsLimiting from './features/limiting.js';
-import supportsDataTypeCase from './options/dataTypeCase.js';
+import supportsCreateTable from './features/createTable';
+import supportsAlterTable from './features/alterTable';
+import supportsDropTable from './features/dropTable';
+import supportsJoin from './features/join';
+import supportsStrings from './features/strings';
+import supportsComments from './features/comments';
+import supportsOperators from './features/operators';
+import supportsLimiting from './features/limiting';
+import supportsDataTypeCase from './options/dataTypeCase';
 
 describe('Db2Formatter', () => {
   const language = 'db2';

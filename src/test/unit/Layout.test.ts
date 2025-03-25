@@ -1,5 +1,5 @@
-import Indentation from '../../formatter/Indentation.js';
-import Layout, { WS } from '../../formatter/Layout.js';
+import Indentation from '../../formatter/Indentation';
+import Layout, { WS } from '../../formatter/Layout';
 
 describe('Layout', () => {
   function testLayout(...items: (WS | string)[]): string {

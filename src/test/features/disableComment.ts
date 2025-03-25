@@ -1,6 +1,6 @@
 import dedent from 'dedent-js';
 
-import { FormatFn } from '../../sqlFormatter.js';
+import { FormatFn } from '../../sqlFormatter';
 
 export default function supportsDisableComment(format: FormatFn) {
   it('does not format text between /* sql-formatter-disable */ and /* sql-formatter-enable */', () => {

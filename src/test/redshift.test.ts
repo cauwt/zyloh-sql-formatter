@@ -1,25 +1,25 @@
 import dedent from 'dedent-js';
 
-import { format as originalFormat, FormatFn } from '../sqlFormatter.js';;
-import behavesLikeSqlFormatter from './behavesLikeSqlFormatter.js';
-import supportsAlterTable from './features/alterTable.js';
-import supportsCommentOn from './features/commentOn.js';
-import supportsComments from './features/comments.js';
-import supportsCreateTable from './features/createTable.js';
-import supportsCreateView from './features/createView.js';
-import supportsDeleteFrom from './features/deleteFrom.js';
-import supportsDropTable from './features/dropTable.js';
-import supportsIdentifiers from './features/identifiers.js';
-import supportsInsertInto from './features/insertInto.js';
-import supportsJoin from './features/join.js';
-import supportsLimiting from './features/limiting.js';
-import supportsOperators from './features/operators.js';
-import supportsSetOperations from './features/setOperations.js';
-import supportsStrings from './features/strings.js';
-import supportsTruncateTable from './features/truncateTable.js';
-import supportsUpdate from './features/update.js';
-import supportsParams from './options/param.js';
-import supportsDataTypeCase from './options/dataTypeCase.js';
+import { format as originalFormat, FormatFn } from '../sqlFormatter';;
+import behavesLikeSqlFormatter from './behavesLikeSqlFormatter';
+import supportsAlterTable from './features/alterTable';
+import supportsCommentOn from './features/commentOn';
+import supportsComments from './features/comments';
+import supportsCreateTable from './features/createTable';
+import supportsCreateView from './features/createView';
+import supportsDeleteFrom from './features/deleteFrom';
+import supportsDropTable from './features/dropTable';
+import supportsIdentifiers from './features/identifiers';
+import supportsInsertInto from './features/insertInto';
+import supportsJoin from './features/join';
+import supportsLimiting from './features/limiting';
+import supportsOperators from './features/operators';
+import supportsSetOperations from './features/setOperations';
+import supportsStrings from './features/strings';
+import supportsTruncateTable from './features/truncateTable';
+import supportsUpdate from './features/update';
+import supportsParams from './options/param';
+import supportsDataTypeCase from './options/dataTypeCase';
 
 describe('RedshiftFormatter', () => {
   const language = 'redshift';

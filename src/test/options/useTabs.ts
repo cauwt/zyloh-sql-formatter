@@ -1,4 +1,4 @@
-import { FormatFn } from '../../sqlFormatter.js';
+import { FormatFn } from '../../sqlFormatter';
 
 export default function supportsUseTabs(format: FormatFn) {
   it('supports indenting with tabs', () => {

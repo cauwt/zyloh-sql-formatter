@@ -1,9 +1,9 @@
-import * as allDialects from './allDialects.js';
-import { ConfigError } from './validateConfig.js';
-import { createDialect } from './dialect.js';
-import Lineager from './lineager/Lineager.js';
-import { ColumnLineage } from './lineager/columnLineage.js';
-import { TableLineage } from './lineager/tableLineage.js';
+import * as allDialects from './allDialects';
+import { ConfigError } from './validateConfig';
+import { createDialect } from './dialect';
+import Lineager from './lineager/Lineager';
+import { ColumnLineage } from './lineager/columnLineage';
+import { TableLineage } from './lineager/tableLineage';
 
 // 定义血缘分析的配置选项
 export interface LineageOptions {

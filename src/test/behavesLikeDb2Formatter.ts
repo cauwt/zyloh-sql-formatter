@@ -1,24 +1,24 @@
 import dedent from 'dedent-js';
 
-import { FormatFn } from '../sqlFormatter.js';
-import behavesLikeSqlFormatter from './behavesLikeSqlFormatter.js';
+import { FormatFn } from '../sqlFormatter';
+import behavesLikeSqlFormatter from './behavesLikeSqlFormatter';
 
-import supportsBetween from './features/between.js';
-import supportsSchema from './features/schema.js';
-import supportsStrings from './features/strings.js';
-import supportsConstraints from './features/constraints.js';
-import supportsDeleteFrom from './features/deleteFrom.js';
-import supportsCommentOn from './features/commentOn.js';
-import supportsIdentifiers from './features/identifiers.js';
-import supportsParams from './options/param.js';
-import supportsSetOperations from './features/setOperations.js';
-import supportsInsertInto from './features/insertInto.js';
-import supportsUpdate from './features/update.js';
-import supportsTruncateTable from './features/truncateTable.js';
-import supportsMergeInto from './features/mergeInto.js';
-import supportsCreateView from './features/createView.js';
-import supportsArrayLiterals from './features/arrayLiterals.js';
-import supportsArrayAndMapAccessors from './features/arrayAndMapAccessors.js';
+import supportsBetween from './features/between';
+import supportsSchema from './features/schema';
+import supportsStrings from './features/strings';
+import supportsConstraints from './features/constraints';
+import supportsDeleteFrom from './features/deleteFrom';
+import supportsCommentOn from './features/commentOn';
+import supportsIdentifiers from './features/identifiers';
+import supportsParams from './options/param';
+import supportsSetOperations from './features/setOperations';
+import supportsInsertInto from './features/insertInto';
+import supportsUpdate from './features/update';
+import supportsTruncateTable from './features/truncateTable';
+import supportsMergeInto from './features/mergeInto';
+import supportsCreateView from './features/createView';
+import supportsArrayLiterals from './features/arrayLiterals';
+import supportsArrayAndMapAccessors from './features/arrayAndMapAccessors';
 
 /**
  * Shared tests for DB2 and DB2i

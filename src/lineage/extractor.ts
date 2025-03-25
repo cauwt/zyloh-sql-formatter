@@ -1,8 +1,8 @@
-import { FormatOptions } from '../FormatOptions.js';
+import { FormatOptions } from '../FormatOptions';
 
-import { createParser } from '../parser/createParser.js';
-import { StatementNode } from '../parser/ast.js';
-import { Dialect } from '../dialect.js';
+import { createParser } from '../parser/createParser';
+import { StatementNode } from '../parser/ast';
+import { Dialect } from '../dialect';
 
 export default class Extractor {
   private dialect: Dialect;

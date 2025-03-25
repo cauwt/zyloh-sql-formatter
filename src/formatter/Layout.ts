@@ -1,6 +1,6 @@
-import { last } from '../utils.js';
+import { last } from '../utils';
 
-import Indentation from './Indentation.js';
+import Indentation from './Indentation';
 
 /** Whitespace modifiers to be used with add() method */
 export enum WS {

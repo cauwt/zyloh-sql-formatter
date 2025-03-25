@@ -1,9 +1,9 @@
-import * as allDialects from './allDialects.js';
+import * as allDialects from './allDialects';
 
-import { FormatOptions } from './FormatOptions.js';
-import { createDialect, DialectOptions } from './dialect.js';
-import Formatter from './formatter/Formatter.js';
-import { ConfigError, validateConfig } from './validateConfig.js';
+import { FormatOptions } from './FormatOptions';
+import { createDialect, DialectOptions } from './dialect';
+import Formatter from './formatter/Formatter';
+import { ConfigError, validateConfig } from './validateConfig';
 
 const dialectNameMap: Record<keyof typeof allDialects | 'tsql', keyof typeof allDialects> = {
   bigquery: 'bigquery',

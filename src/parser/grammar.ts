@@ -44,9 +44,9 @@ declare var LINE_COMMENT: any;
 declare var BLOCK_COMMENT: any;
 declare var DISABLE_COMMENT: any;
 
-import LexerAdapter from './LexerAdapter.js';
-import { NodeType, AstNode, CommentNode, KeywordNode, IdentifierNode, DataTypeNode } from './ast.js';
-import { Token, TokenType } from '../lexer/token.js';
+import LexerAdapter from './LexerAdapter';
+import { NodeType, AstNode, CommentNode, KeywordNode, IdentifierNode, DataTypeNode } from './ast';
+import { Token, TokenType } from '../lexer/token';
 
 // The lexer here is only to provide the has() method,
 // that's used inside the generated grammar definition.
@@ -154,7 +154,7 @@ const grammar: Grammar = {
     {"name": "statement", "symbols": ["expressions_or_clauses", "statement$subexpression$1"], "postprocess": 
         ([children, [delimiter]]) => ({
           type: NodeType.statement,
-          start: children[0].start,
+          start: children?children.start:undefined,
           children,
           hasSemicolon: delimiter.type === TokenType.DELIMITER,
         })
@@ -220,7 +220,7 @@ const grammar: Grammar = {
         })
         },
     {"name": "all_columns_asterisk", "symbols": [(lexer.has("ASTERISK") ? {type: "ASTERISK"} : ASTERISK)], "postprocess": 
-        ([[token]]) => ({ type: NodeType.all_columns_asterisk,start: token.start })
+        ([token]) => ({ type: NodeType.all_columns_asterisk,start: token })
         },
     {"name": "other_clause$ebnf$1", "symbols": []},
     {"name": "other_clause$ebnf$1", "symbols": ["other_clause$ebnf$1", "free_form_sql"], "postprocess": (d) => d[0].concat([d[1]])},

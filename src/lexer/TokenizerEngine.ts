@@ -1,6 +1,6 @@
-import { Token, TokenType } from './token.js';
-import { lineColFromIndex } from './lineColFromIndex.js';
-import { WHITESPACE_REGEX } from './regexUtil.js';
+import { Token, TokenType } from './token';
+import { lineColFromIndex } from './lineColFromIndex';
+import { WHITESPACE_REGEX } from './regexUtil';
 
 export interface RegExpLike {
   lastIndex: number;

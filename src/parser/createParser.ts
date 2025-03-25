@@ -1,12 +1,12 @@
 import nearley from 'nearley';
 
-import Tokenizer from '../lexer/Tokenizer.js';
-import { disambiguateTokens } from '../lexer/disambiguateTokens.js';
-import { ParamTypes } from '../lexer/TokenizerOptions.js';
-import { StatementNode } from './ast.js';
-import grammar from './grammar.js';
-import LexerAdapter from './LexerAdapter.js';
-import { createEofToken } from '../lexer/token.js';
+import Tokenizer from '../lexer/Tokenizer';
+import { disambiguateTokens } from '../lexer/disambiguateTokens';
+import { ParamTypes } from '../lexer/TokenizerOptions';
+import { StatementNode } from './ast';
+import grammar from './grammar';
+import LexerAdapter from './LexerAdapter';
+import { createEofToken } from '../lexer/token';
 
 const { Parser: NearleyParser, Grammar } = nearley;
 

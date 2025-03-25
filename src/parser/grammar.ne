@@ -1,8 +1,8 @@
 @preprocessor typescript
 @{%
-import LexerAdapter from './LexerAdapter.js';
-import { NodeType, AstNode, CommentNode, KeywordNode, IdentifierNode, DataTypeNode } from './ast.js';
-import { Token, TokenType } from '../lexer/token.js';
+import LexerAdapter from './LexerAdapter';
+import { NodeType, AstNode, CommentNode, KeywordNode, IdentifierNode, DataTypeNode } from './ast';
+import { Token, TokenType } from '../lexer/token';
 
 // The lexer here is only to provide the has() method,
 // that's used inside the generated grammar definition.
@@ -85,7 +85,7 @@ main -> statement:* {%
 statement -> expressions_or_clauses (%DELIMITER | %EOF) {%
   ([children, [delimiter]]) => ({
     type: NodeType.statement,
-    start: children[0].start,
+    start: children?children.start:undefined,
     children,
     hasSemicolon: delimiter.type === TokenType.DELIMITER,
   })
@@ -142,7 +142,7 @@ select_clause -> %RESERVED_SELECT {%
 %}
 
 all_columns_asterisk -> %ASTERISK {%
-  ([[token]]) => ({ type: NodeType.all_columns_asterisk,start: token.start })
+  ([token]) => ({ type: NodeType.all_columns_asterisk,start: token })
 %}
 
 other_clause -> %RESERVED_CLAUSE free_form_sql:* {%

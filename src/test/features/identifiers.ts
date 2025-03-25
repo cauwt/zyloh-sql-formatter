@@ -1,6 +1,6 @@
 import { expect } from '@jest/globals';
 import dedent from 'dedent-js';
-import { FormatFn } from '../../sqlFormatter.js';
+import { FormatFn } from '../../sqlFormatter';
 
 type IdentType =
   | '""-qq' // with repeated-quote escaping

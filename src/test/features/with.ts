@@ -1,6 +1,6 @@
 import dedent from 'dedent-js';
 
-import { FormatFn } from '../../sqlFormatter.js';
+import { FormatFn } from '../../sqlFormatter';
 
 export default function supportsWith(format: FormatFn) {
   it('formats WITH clause with multiple Common Table Expressions (CTE)', () => {

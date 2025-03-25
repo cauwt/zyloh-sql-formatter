@@ -1,14 +1,14 @@
-import { FormatOptions } from '../FormatOptions.js';
-import { indentString } from './config.js';
-import Params from './Params.js';
+import { FormatOptions } from '../FormatOptions';
+import { indentString } from './config';
+import Params from './Params';
 
-import { createParser } from '../parser/createParser.js';
-import { StatementNode } from '../parser/ast.js';
-import { Dialect } from '../dialect.js';
+import { createParser } from '../parser/createParser';
+import { StatementNode } from '../parser/ast';
+import { Dialect } from '../dialect';
 
-import ExpressionFormatter from './ExpressionFormatter.js';
-import Layout, { WS } from './Layout.js';
-import Indentation from './Indentation.js';
+import ExpressionFormatter from './ExpressionFormatter';
+import Layout, { WS } from './Layout';
+import Indentation from './Indentation';
 
 /** Main formatter class that produces a final output string from list of tokens */
 export default class Formatter {

@@ -1,7 +1,7 @@
-import { DialectOptions } from '../../dialect.js';
-import { expandPhrases } from '../../expandPhrases.js';
-import { functions } from './db2.functions.js';
-import { dataTypes, keywords } from './db2.keywords.js';
+import { DialectOptions } from '../../dialect';
+import { expandPhrases } from '../../expandPhrases';
+import { functions } from './db2.functions';
+import { dataTypes, keywords } from './db2.keywords';
 
 const reservedSelect = expandPhrases(['SELECT [ALL | DISTINCT]']);
 

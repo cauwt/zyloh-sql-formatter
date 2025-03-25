@@ -1,7 +1,7 @@
-import { DialectOptions } from '../../dialect.js';
-import { expandPhrases } from '../../expandPhrases.js';
-import { functions } from './snowflake.functions.js';
-import { dataTypes, keywords } from './snowflake.keywords.js';
+import { DialectOptions } from '../../dialect';
+import { expandPhrases } from '../../expandPhrases';
+import { functions } from './snowflake.functions';
+import { dataTypes, keywords } from './snowflake.keywords';
 
 const reservedSelect = expandPhrases(['SELECT [ALL | DISTINCT]']);
 

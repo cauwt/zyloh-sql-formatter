@@ -1,8 +1,8 @@
-import { DialectOptions } from '../../dialect.js';
-import { expandPhrases } from '../../expandPhrases.js';
-import { EOF_TOKEN, isToken, Token, TokenType } from '../../lexer/token.js';
-import { dataTypes, keywords } from './spark.keywords.js';
-import { functions } from './spark.functions.js';
+import { DialectOptions } from '../../dialect';
+import { expandPhrases } from '../../expandPhrases';
+import { EOF_TOKEN, isToken, Token, TokenType } from '../../lexer/token';
+import { dataTypes, keywords } from './spark.keywords';
+import { functions } from './spark.functions';
 
 // http://spark.apache.org/docs/latest/sql-ref-syntax.html
 const reservedSelect = expandPhrases(['SELECT [ALL | DISTINCT]']);

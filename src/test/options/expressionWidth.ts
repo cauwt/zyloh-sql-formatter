@@ -1,6 +1,6 @@
 import dedent from 'dedent-js';
 
-import { FormatFn } from '../../sqlFormatter.js';
+import { FormatFn } from '../../sqlFormatter';
 
 export default function supportsExpressionWidth(format: FormatFn) {
   it('throws error when expressionWidth negative number', () => {

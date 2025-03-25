@@ -1,4 +1,4 @@
-import { EOF_TOKEN, isToken, Token, TokenType } from '../../lexer/token.js';
+import { EOF_TOKEN, isToken, Token, TokenType } from '../../lexer/token';
 
 // Shared functionality used by all MariaDB-like SQL dialects.
 

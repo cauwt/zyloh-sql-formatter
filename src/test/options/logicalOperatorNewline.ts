@@ -1,6 +1,6 @@
 import dedent from 'dedent-js';
 
-import { FormatFn } from '../../sqlFormatter.js';
+import { FormatFn } from '../../sqlFormatter';
 
 export default function supportsLogicalOperatorNewline(format: FormatFn) {
   it('by default adds newline before logical operator', () => {

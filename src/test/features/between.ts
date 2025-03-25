@@ -1,5 +1,5 @@
 import dedent from 'dedent-js';
-import { FormatFn } from '../../sqlFormatter.js';
+import { FormatFn } from '../../sqlFormatter';
 
 export default function supportsBetween(format: FormatFn) {
   it('formats BETWEEN _ AND _ on single line', () => {

@@ -1,5 +1,5 @@
-import { lineColFromIndex } from '../lexer/lineColFromIndex.js';
-import { Token, TokenType } from '../lexer/token.js';
+import { lineColFromIndex } from '../lexer/lineColFromIndex';
+import { Token, TokenType } from '../lexer/token';
 
 // Nearly type definitions say that Token must have a value field,
 // which however is wrong.  Instead Nearley expects a text field.

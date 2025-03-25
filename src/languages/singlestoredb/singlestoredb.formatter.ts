@@ -1,8 +1,8 @@
-import { DialectOptions } from '../../dialect.js';
-import { expandPhrases } from '../../expandPhrases.js';
-import { postProcess } from '../mariadb/likeMariaDb.js';
-import { dataTypes, keywords } from './singlestoredb.keywords.js';
-import { functions } from './singlestoredb.functions.js';
+import { DialectOptions } from '../../dialect';
+import { expandPhrases } from '../../expandPhrases';
+import { postProcess } from '../mariadb/likeMariaDb';
+import { dataTypes, keywords } from './singlestoredb.keywords';
+import { functions } from './singlestoredb.functions';
 
 const reservedSelect = expandPhrases(['SELECT [ALL | DISTINCT | DISTINCTROW]']);
 

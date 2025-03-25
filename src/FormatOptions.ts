@@ -1,6 +1,6 @@
 // import only type to avoid ESLint no-cycle rule producing an error
-import { ParamItems } from './formatter/Params.js';
-import { ParamTypes } from './lexer/TokenizerOptions.js';
+import { ParamItems } from './formatter/Params';
+import { ParamTypes } from './lexer/TokenizerOptions';
 
 export type IndentStyle = 'standard' | 'tabularLeft' | 'tabularRight';
 

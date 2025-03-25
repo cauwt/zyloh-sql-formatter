@@ -1,5 +1,5 @@
-import { Dialect } from '../dialect.js';
-import { createParser } from '../parser/createParser.js';
+import { Dialect } from '../dialect';
+import { createParser } from '../parser/createParser';
 import {
   AllColumnsAsteriskNode,
   ArraySubscriptNode,
@@ -28,11 +28,11 @@ import {
   ParameterizedDataTypeNode,
   DisableCommentNode,
   StatementNode
-} from '../parser/ast.js';
-import { LineageOptions} from '../sqlLineager.js';
-import { ColumnLineage } from './columnLineage.js';
-import { TableLineage } from './tableLineage.js';
-import { Table } from './table.js';
+} from '../parser/ast';
+import { LineageOptions} from '../sqlLineager';
+import { ColumnLineage } from './columnLineage';
+import { TableLineage } from './tableLineage';
+import { Table } from './table';
 
 export default class Lineager {
   private dialect: Dialect;
