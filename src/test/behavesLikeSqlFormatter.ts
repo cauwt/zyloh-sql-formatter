@@ -1,23 +1,23 @@
 import dedent from 'dedent-js';
 
-import { FormatFn } from '../src/sqlFormatter.js';
+import { FormatFn } from '../sqlFormatter.js';
 
-import supportsCase from '../src/test/features/case.js';
-import supportsNumbers from '../src/test/features/numbers.js';
-import supportsWith from '../src/test/features/with.js';
-import supportsTabWidth from '../src/test/options/tabWidth.js';
-import supportsUseTabs from '../src/test/options/useTabs.js';
-import supportsExpressionWidth from '../src/test/options/expressionWidth.js';
-import supportsKeywordCase from '../src/test/options/keywordCase.js';
-import supportsIdentifierCase from '../src/test/options/identifierCase.js';
-import supportsIndentStyle from '../src/test/options/indentStyle.js';
-import supportsLinesBetweenQueries from '../src/test/options/linesBetweenQueries.js';
-import supportsNewlineBeforeSemicolon from '../src/test/options/newlineBeforeSemicolon.js';
-import supportsLogicalOperatorNewline from '../src/test/options/logicalOperatorNewline.js';
-import supportsParamTypes from '../src/test/options/paramTypes.js';
-import supportsWindowFunctions from '../src/test/features/windowFunctions.js';
-import supportsFunctionCase from '../src/test/options/functionCase.js';
-import supportsDisableComment from '../src/test/features/disableComment.js';
+import supportsCase from './features/case.js';
+import supportsNumbers from './features/numbers.js';
+import supportsWith from './features/with.js';
+import supportsTabWidth from './options/tabWidth.js';
+import supportsUseTabs from './options/useTabs.js';
+import supportsExpressionWidth from './options/expressionWidth.js';
+import supportsKeywordCase from './options/keywordCase.js';
+import supportsIdentifierCase from './options/identifierCase.js';
+import supportsIndentStyle from './options/indentStyle.js';
+import supportsLinesBetweenQueries from './options/linesBetweenQueries.js';
+import supportsNewlineBeforeSemicolon from './options/newlineBeforeSemicolon.js';
+import supportsLogicalOperatorNewline from './options/logicalOperatorNewline.js';
+import supportsParamTypes from './options/paramTypes.js';
+import supportsWindowFunctions from './features/windowFunctions.js';
+import supportsFunctionCase from './options/functionCase.js';
+import supportsDisableComment from './features/disableComment.js';
 
 /**
  * Core tests for all SQL formatters

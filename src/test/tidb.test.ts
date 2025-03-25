@@ -1,20 +1,20 @@
 import dedent from 'dedent-js';
 
-import { format as originalFormat, FormatFn } from '../src/sqlFormatter.js';
+import { format as originalFormat, FormatFn } from '../sqlFormatter.js';;
 import behavesLikeMariaDbFormatter from './behavesLikeMariaDbFormatter.js';
 
-import supportsJoin from '../src/test/features/join.js';
-import supportsOperators from '../src/test/features/operators.js';
-import supportsWindow from '../src/test/features/window.js';
-import supportsSetOperations from '../src/test/features/setOperations.js';
-import supportsLimiting from '../src/test/features/limiting.js';
-import supportsCreateTable from '../src/test/features/createTable.js';
-import supportsParams from '../src/test/options/param.js';
-import supportsCreateView from '../src/test/features/createView.js';
-import supportsAlterTable from '../src/test/features/alterTable.js';
-import supportsStrings from '../src/test/features/strings.js';
-import supportsConstraints from '../src/test/features/constraints.js';
-import supportsDataTypeCase from '../src/test/options/dataTypeCase.js';
+import supportsJoin from './features/join.js';
+import supportsOperators from './features/operators.js';
+import supportsWindow from './features/window.js';
+import supportsSetOperations from './features/setOperations.js';
+import supportsLimiting from './features/limiting.js';
+import supportsCreateTable from './features/createTable.js';
+import supportsParams from './options/param.js';
+import supportsCreateView from './features/createView.js';
+import supportsAlterTable from './features/alterTable.js';
+import supportsStrings from './features/strings.js';
+import supportsConstraints from './features/constraints.js';
+import supportsDataTypeCase from './options/dataTypeCase.js';
 
 // For now these tests are exactly the same as for MySQL
 describe('TiDBFormatter', () => {

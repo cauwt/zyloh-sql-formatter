@@ -1,24 +1,24 @@
 import dedent from 'dedent-js';
 
-import { FormatFn } from '../src/sqlFormatter.js';
+import { FormatFn } from '../sqlFormatter.js';
 import behavesLikeSqlFormatter from './behavesLikeSqlFormatter.js';
 
-import supportsBetween from '../src/test/features/between.js';
-import supportsSchema from '../src/test/features/schema.js';
-import supportsStrings from '../src/test/features/strings.js';
-import supportsConstraints from '../src/test/features/constraints.js';
-import supportsDeleteFrom from '../src/test/features/deleteFrom.js';
-import supportsCommentOn from '../src/test/features/commentOn.js';
-import supportsIdentifiers from '../src/test/features/identifiers.js';
-import supportsParams from '../src/test/options/param.js';
-import supportsSetOperations from '../src/test/features/setOperations.js';
-import supportsInsertInto from '../src/test/features/insertInto.js';
-import supportsUpdate from '../src/test/features/update.js';
-import supportsTruncateTable from '../src/test/features/truncateTable.js';
-import supportsMergeInto from '../src/test/features/mergeInto.js';
-import supportsCreateView from '../src/test/features/createView.js';
-import supportsArrayLiterals from '../src/test/features/arrayLiterals.js';
-import supportsArrayAndMapAccessors from '../src/test/features/arrayAndMapAccessors.js';
+import supportsBetween from './features/between.js';
+import supportsSchema from './features/schema.js';
+import supportsStrings from './features/strings.js';
+import supportsConstraints from './features/constraints.js';
+import supportsDeleteFrom from './features/deleteFrom.js';
+import supportsCommentOn from './features/commentOn.js';
+import supportsIdentifiers from './features/identifiers.js';
+import supportsParams from './options/param.js';
+import supportsSetOperations from './features/setOperations.js';
+import supportsInsertInto from './features/insertInto.js';
+import supportsUpdate from './features/update.js';
+import supportsTruncateTable from './features/truncateTable.js';
+import supportsMergeInto from './features/mergeInto.js';
+import supportsCreateView from './features/createView.js';
+import supportsArrayLiterals from './features/arrayLiterals.js';
+import supportsArrayAndMapAccessors from './features/arrayAndMapAccessors.js';
 
 /**
  * Shared tests for DB2 and DB2i

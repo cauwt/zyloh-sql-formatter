@@ -1,26 +1,26 @@
 import dedent from 'dedent-js';
 
-import { format as originalFormat, FormatFn } from '../src/sqlFormatter.js';
+import { format as originalFormat, FormatFn } from '../sqlFormatter.js';;
 import behavesLikeSqlFormatter from './behavesLikeSqlFormatter.js';
 
-import supportsBetween from '../src/test/features/between.js';
-import supportsJoin from '../src/test/features/join.js';
-import supportsOperators from '../src/test/features/operators.js';
-import supportsSchema from '../src/test/features/schema.js';
-import supportsStrings from '../src/test/features/strings.js';
-import supportsReturning from '../src/test/features/returning.js';
-import supportsDeleteFrom from '../src/test/features/deleteFrom.js';
-import supportsArrayAndMapAccessors from '../src/test/features/arrayAndMapAccessors.js';
-import supportsArrayLiterals from '../src/test/features/arrayLiterals.js';
-import supportsComments from '../src/test/features/comments.js';
-import supportsIdentifiers from '../src/test/features/identifiers.js';
-import supportsParams from '../src/test/options/param.js';
-import supportsWindow from '../src/test/features/window.js';
-import supportsSetOperations from '../src/test/features/setOperations.js';
-import supportsLimiting from '../src/test/features/limiting.js';
-import supportsInsertInto from '../src/test/features/insertInto.js';
-import supportsUpdate from '../src/test/features/update.js';
-import supportsMergeInto from '../src/test/features/mergeInto.js';
+import supportsBetween from './features/between.js';
+import supportsJoin from './features/join.js';
+import supportsOperators from './features/operators.js';
+import supportsSchema from './features/schema.js';
+import supportsStrings from './features/strings.js';
+import supportsReturning from './features/returning.js';
+import supportsDeleteFrom from './features/deleteFrom.js';
+import supportsArrayAndMapAccessors from './features/arrayAndMapAccessors.js';
+import supportsArrayLiterals from './features/arrayLiterals.js';
+import supportsComments from './features/comments.js';
+import supportsIdentifiers from './features/identifiers.js';
+import supportsParams from './options/param.js';
+import supportsWindow from './features/window.js';
+import supportsSetOperations from './features/setOperations.js';
+import supportsLimiting from './features/limiting.js';
+import supportsInsertInto from './features/insertInto.js';
+import supportsUpdate from './features/update.js';
+import supportsMergeInto from './features/mergeInto.js';
 
 describe('N1qlFormatter', () => {
   const language = 'n1ql';
