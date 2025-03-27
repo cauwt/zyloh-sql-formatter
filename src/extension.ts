@@ -123,7 +123,8 @@ function extractCurrentSql(text: string, cursorPosition: number): string {
 	// 输出提取的SQL语句到DEBUG CONSOLE
 	console.log(`Extracted SQL: \n${sql}`);
 
-	let lineage = lineager(sql, { language: 'plsql' });
+	let lineage = lineager(sql, { language: 'plsql',dynamicSQL: true });
+	console.log(`lineage: \n${JSON.stringify(lineage)}`);
 
 	return sql;
 }

@@ -10,7 +10,7 @@ export interface LineageOptions {
   includeSubqueries?: boolean;    // 是否包含子查询的血缘关系
   includeViews?: boolean;         // 是否包含视图的血缘关系
   includeCTE?: boolean;           // 是否包含CTE的血缘关系
-  dynmicSQL?: boolean;            // 是否包含动态SQL的血缘关系
+  dynamicSQL?: boolean;            // 是否包含动态SQL的血缘关系
 }
 
 
@@ -18,7 +18,7 @@ const defaultOptions: LineageOptions = {
   includeSubqueries: true,
   includeViews: true,
   includeCTE: true,
-  dynmicSQL: false,
+  dynamicSQL: false,
 };
 
 const dialectNameMap: Record<keyof typeof allDialects | 'tsql', keyof typeof allDialects> = {
@@ -45,17 +45,20 @@ const dialectNameMap: Record<keyof typeof allDialects | 'tsql', keyof typeof all
   
   export const supportedDialects = Object.keys(dialectNameMap);
   export type SqlLanguage = keyof typeof dialectNameMap;
+export type LineageOptionsWithLanguage = Partial<LineageOptions> & {
+  language?: SqlLanguage;
+};
   
 /**
  * 提取SQL查询中的字段血缘关系
  * 
  * @param {string} query - 输入的SQL查询语句
- * @param {object} cfg - 配置选项，包含language和其他血缘分析选项
+ * @param {LineageOptionsWithLanguage} cfg - 配置选项，包含language和其他血缘分析选项
  * @return {TableLineage[]} 字段血缘关系列表
  */
 export const lineager = (
   query: string,
-  cfg: Partial<LineageOptions> & { language?: SqlLanguage } = {}
+  cfg: LineageOptionsWithLanguage = {}
 ): TableLineage[] => {
   if (typeof query !== 'string') {
     throw new Error('Invalid query argument. Expected string, instead got ' + typeof query);
