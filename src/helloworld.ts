@@ -1,5 +1,5 @@
 import {format} from './sqlFormatter';
-import { lineager } from './sqlLineager';
+import { lineage } from './sqlLineager';
 // create 
 
 const sql=`

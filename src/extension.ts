@@ -1,7 +1,7 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
-import { lineager } from './sqlLineager';
+import { lineage } from './sqlLineager';
 import { TableLineage } from './lineager/tableLineage';
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
@@ -123,8 +123,8 @@ function extractCurrentSql(text: string, cursorPosition: number): string {
 	// 输出提取的SQL语句到DEBUG CONSOLE
 	console.log(`Extracted SQL: \n${sql}`);
 
-	let lineage = lineager(sql, { language: 'plsql',dynamicSQL: true });
-	console.log(`lineage: \n${JSON.stringify(lineage)}`);
+	let table_lineages = lineage(sql, { language: 'plsql',dynamicSQL: true });
+	console.log(`table_lineages: \n${JSON.stringify(table_lineages)}`);
 
 	return sql;
 }
