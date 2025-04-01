@@ -100,9 +100,6 @@ export const plsql: DialectOptions = {
       { quote: "''-qq", prefixes: ['N'] },
       { quote: "q''", prefixes: ['N'] },
     ],
-    dynamicSQLStringTypes: [
-      { quote: "''''-raw", prefixes: ['N'] },
-    ],
     // PL/SQL doesn't actually support escaping of quotes in identifiers,
     // but for the sake of simpler testing we'll support this anyway
     // as all other SQL dialects with "identifiers" do.
@@ -110,7 +107,6 @@ export const plsql: DialectOptions = {
     identChars: { rest: '$#' },
     variableTypes: [{ regex: '&{1,2}[A-Za-z][A-Za-z0-9_$#]*' }],
     paramTypes: { numbered: [':'], named: [':'] },
-    dynamicSQLParamTypes: { numbered: [':'], named: [':'],custom: [{ regex: String.raw`'''\s*\|\|\s*\w+\s*\|\|\s*'''` }, { regex: String.raw`(?:[^']\s*)'\s*\|\|\s*\w+\s*(?:\|\|\s*'|$)` }] },
     paramChars: {}, // Empty object used on purpose to not allow $ and # chars as specified in identChars
     operators: [
       '**',

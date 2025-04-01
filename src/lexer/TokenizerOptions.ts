@@ -80,9 +80,6 @@ export interface TokenizerOptions {
   // Dynamic SQL to escape quotes in strings
   // This is used to escape quotes in strings in dynamic SQL
   // like in PL/pgSQL EXECUTE ... USING ... syntax. 
-  dynamicSQL?:boolean;
-  dynamicSQLStringTypes?: QuoteType[];
-  dynamicSQLParamTypes?: ParamTypes;
   // Types of quotes to use for variables
   variableTypes?: VariableType[];
   // Types of additional parenthesis types to support

@@ -4,6 +4,7 @@ import { createDialect, DialectOptions } from './dialect';
 import Lineager from './lineager/Lineager';
 import { ColumnLineage } from './lineager/columnLineage';
 import { TableLineage } from './lineager/tableLineage';
+import { ParamTypes, QuoteType } from './lexer/TokenizerOptions';
 
 // 定义血缘分析的配置选项
 export interface LineageOptions {
@@ -11,6 +12,10 @@ export interface LineageOptions {
   includeViews?: boolean;         // 是否包含视图的血缘关系
   includeCTE?: boolean;           // 是否包含CTE的血缘关系
   dynamicSQL?: boolean;            // 是否包含动态SQL的血缘关系
+  // Types of quotes to use for strings
+  stringTypes?: QuoteType[];
+  // Types of parameter placeholders supported with prepared statements
+  paramTypes?: ParamTypes;
 }
 
 
@@ -99,6 +104,9 @@ export const lineageDialect = (
     ...defaultOptions,
     ...cfg,
   };
+  // 修改dialect的配置选项，以支持动态SQL和参数化查询
+  dialect.tokenizerOptions.stringTypes = options.dynamicSQL && options.stringTypes ? options.stringTypes : dialect.tokenizerOptions.stringTypes;
+  dialect.tokenizerOptions.paramTypes = options.dynamicSQL ? options.paramTypes : dialect.tokenizerOptions.paramTypes;
 
   // 创建血缘分析器实例并执行分析
   return new Lineager(

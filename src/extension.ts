@@ -46,7 +46,7 @@ export function activate(context: vscode.ExtensionContext) {
 					} else {
 						vscode.window.showInformationMessage(`No SQL found at position: ${offset}`);
 					}
-				} else{
+				} else {
 					vscode.window.showInformationMessage(`No word found at position: ${position.line}:${position.character}`);
 				}
 
@@ -102,7 +102,7 @@ function extractCurrentSql(text: string, cursorPosition: number): string {
 
 	// 提取并清理SQL语句
 	let sql = text.substring(startPos, endPos).trim();
-
+    let dynamicSQL=false;
 	// 检查是否为动态SQL
 	const dynamicSqlMatch = (sql + ";").match(/EXECUTE\s+IMMEDIATE\s+'([^;]+)'\s*;/i);
 	if (dynamicSqlMatch) {
@@ -110,7 +110,8 @@ function extractCurrentSql(text: string, cursorPosition: number): string {
 		sql = dynamicSqlMatch[1];
 		// sql = dynamicSqlMatch[1].replace(/'''\s*\|\|\s*(\w+)\s*\|\|\s*'''/g, ":$1");
 		// 提取动态SQL内容，并处理转义的单引号
-		sql = sql.replace(/''/g, "'");
+		// sql = sql.replace(/''/g, "'");
+		dynamicSQL = true;
 
 	}
 
@@ -123,7 +124,13 @@ function extractCurrentSql(text: string, cursorPosition: number): string {
 	// 输出提取的SQL语句到DEBUG CONSOLE
 	console.log(`Extracted SQL: \n${sql}`);
 
-	let table_lineages = lineage(sql, { language: 'plsql',dynamicSQL: true });
+	let table_lineages = lineage(sql, {
+		language: 'plsql', 
+		dynamicSQL: dynamicSQL, 
+		stringTypes: [{ quote: "''''-raw", prefixes: ['N'] },],
+		paramTypes: { named: [':'], numbered: [':'],
+			custom: [{ regex: String.raw`'''\s*\|\|\s*\w+\s*\|\|\s*'''` }, 
+				{ regex: String.raw`(?:[^']\s*)'\s*\|\|\s*\w+\s*(?:\|\|\s*'|$)` }]} });
 	console.log(`table_lineages: \n${JSON.stringify(table_lineages)}`);
 
 	return sql;
