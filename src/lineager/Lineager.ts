@@ -63,7 +63,7 @@ export default class Lineager {
     for (const statement of statements) {
       if (statement.children.length > 0) {
         const subnode0 = statement.children[0];
-        if (subnode0.type === NodeType.clause && subnode0.nameKw.text === 'CREATE TABLE') {
+        if (subnode0.type === NodeType.clause && subnode0.nameKw.text.match(/CREATE (GLOBAL TEMPORARY)? TABLE/iuy)) {
           // 提取表名
           const tableNameNode = subnode0.children[0];
           const tableName = this.extractIdentifier(tableNameNode);

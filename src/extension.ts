@@ -106,11 +106,8 @@ function extractCurrentSql(text: string, cursorPosition: number): string {
 	// 检查是否为动态SQL
 	const dynamicSqlMatch = (sql + ";").match(/EXECUTE\s+IMMEDIATE\s+'([^;]+)'\s*;/i);
 	if (dynamicSqlMatch) {
-		// 将变量替换为命名参数
+		// 提取动态SQL语句
 		sql = dynamicSqlMatch[1];
-		// sql = dynamicSqlMatch[1].replace(/'''\s*\|\|\s*(\w+)\s*\|\|\s*'''/g, ":$1");
-		// 提取动态SQL内容，并处理转义的单引号
-		// sql = sql.replace(/''/g, "'");
 		dynamicSQL = true;
 
 	}

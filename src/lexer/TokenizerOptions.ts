@@ -77,9 +77,6 @@ export interface TokenizerOptions {
   stringTypes: QuoteType[];
   // Types of quotes to use for quoted identifiers
   identTypes: QuoteType[];
-  // Dynamic SQL to escape quotes in strings
-  // This is used to escape quotes in strings in dynamic SQL
-  // like in PL/pgSQL EXECUTE ... USING ... syntax. 
   // Types of quotes to use for variables
   variableTypes?: VariableType[];
   // Types of additional parenthesis types to support

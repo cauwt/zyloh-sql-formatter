@@ -80,7 +80,7 @@ const reservedJoins = expandPhrases([
 
 const reservedPhrases = expandPhrases([
   'ON {UPDATE | DELETE} [SET NULL]',
-  'ON COMMIT',
+  'ON COMMIT [PRESERVE ROWS]',
   '{ROWS | RANGE} BETWEEN',
 ]);
 
