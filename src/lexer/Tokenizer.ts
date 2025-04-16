@@ -48,6 +48,14 @@ export default class Tokenizer {
         type: TokenType.QUOTED_IDENTIFIER,
         regex: regex.string(cfg.identTypes),
       },
+      ...(cfg.dynamicSQL
+        ? [
+          {
+            type: TokenType.DYNAMIC_SQL_BEGIN,
+            regex: /EXECUTE IMMEDIATE '/iuy,
+          },
+        ]
+        : []),
       {
         type: TokenType.NUMBER,
         regex:
@@ -132,11 +140,11 @@ export default class Tokenizer {
       },
       ...(cfg.operatorKeyword
         ? [
-            {
-              type: TokenType.OPERATOR,
-              regex: /OPERATOR *\([^)]+\)/iuy,
-            },
-          ]
+          {
+            type: TokenType.OPERATOR,
+            regex: /OPERATOR *\([^)]+\)/iuy,
+          },
+        ]
         : []),
       {
         type: TokenType.RESERVED_FUNCTION_NAME,
@@ -164,7 +172,7 @@ export default class Tokenizer {
         type: TokenType.VARIABLE,
         regex: cfg.variableTypes ? regex.variable(cfg.variableTypes) : undefined,
       },
-      { type: TokenType.STRING, regex: regex.string(cfg.stringTypes) },
+      { type: TokenType.STRING, regex: regex.string(cfg.dynamicSQL ? [{ quote: "''''-raw", prefixes: ['N'] }] : cfg.stringTypes) },
       {
         type: TokenType.IDENTIFIER,
         regex: regex.identifier(cfg.identChars),
@@ -197,6 +205,14 @@ export default class Tokenizer {
         ]),
       },
       { type: TokenType.ASTERISK, regex: /[*]/uy },
+      ...(cfg.dynamicSQL
+        ? [
+          {
+            type: TokenType.DYNAMIC_SQL_END,
+            regex: /'/iuy,
+          },
+        ]
+        : []),
       {
         type: TokenType.PROPERTY_ACCESS_OPERATOR,
         regex: regex.operator(['.', ...(cfg.propertyAccessOperators ?? [])]),
@@ -209,16 +225,24 @@ export default class Tokenizer {
   private buildParamRules(cfg: TokenizerOptions, paramTypesOverrides: ParamTypes): TokenRule[] {
     // Each dialect has its own default parameter types (if any),
     // but these can be overriden by the user of the library.
-    const paramTypes = {
-      named: paramTypesOverrides?.named || cfg.paramTypes?.named || [],
-      quoted: paramTypesOverrides?.quoted || cfg.paramTypes?.quoted || [],
-      numbered: paramTypesOverrides?.numbered || cfg.paramTypes?.numbered || [],
-      positional:
-        typeof paramTypesOverrides?.positional === 'boolean'
-          ? paramTypesOverrides.positional
-          : cfg.paramTypes?.positional,
-      custom: paramTypesOverrides?.custom || cfg.paramTypes?.custom || [],
-    };
+    const paramTypesDynamic: ParamTypes =
+      {
+        named: [':'], 
+        numbered: [':'],
+        custom: [{ regex: String.raw`'''\s*\|\|\s*\w+\s*\|\|\s*'''` },
+        { regex: String.raw`(?:[^']\s*)'\s*\|\|\s*\w+\s*(?:\|\|\s*'|$)` }]
+      };
+    const paramTypes = 
+      {
+        named: paramTypesOverrides?.named || cfg.paramTypes?.named || [],
+        quoted: paramTypesOverrides?.quoted || cfg.paramTypes?.quoted || [],
+        numbered: paramTypesOverrides?.numbered || cfg.paramTypes?.numbered || [],
+        positional:
+          typeof paramTypesOverrides?.positional === 'boolean'
+            ? paramTypesOverrides.positional
+            : cfg.paramTypes?.positional,
+        custom: (cfg.dynamicSQL? paramTypesDynamic.custom: (paramTypesOverrides?.custom || cfg.paramTypes?.custom)) || [],
+      };
 
     return this.validRules([
       {
@@ -235,9 +259,9 @@ export default class Tokenizer {
         key: v =>
           (({ tokenKey, quoteChar }) =>
             tokenKey.replace(new RegExp(escapeRegExp('\\' + quoteChar), 'gu'), quoteChar))({
-            tokenKey: v.slice(2, -1),
-            quoteChar: v.slice(-1),
-          }),
+              tokenKey: v.slice(2, -1),
+              quoteChar: v.slice(-1),
+            }),
       },
       {
         type: TokenType.NUMBERED_PARAMETER,

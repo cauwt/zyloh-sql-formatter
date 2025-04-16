@@ -1,7 +1,7 @@
 @preprocessor typescript
 @{%
 import LexerAdapter from './LexerAdapter';
-import { NodeType, AstNode, CommentNode, KeywordNode, IdentifierNode, DataTypeNode } from './ast';
+import { NodeType, AstNode, DynamicSQLNode, CommentNode, KeywordNode, IdentifierNode, DataTypeNode } from './ast';
 import { Token, TokenType } from '../lexer/token';
 
 // The lexer here is only to provide the has() method,
@@ -82,12 +82,22 @@ main -> statement:* {%
   }
 %}
 
-statement -> expressions_or_clauses (%DELIMITER | %EOF) {%
-  ([children, [delimiter]]) => ({
+statement -> (expressions_or_clauses|dynamic_sql) (%DELIMITER | %EOF) {%
+  ([[children], [delimiter]]) => ({
     type: NodeType.statement,
     start: children.start,
     children,
     hasSemicolon: delimiter.type === TokenType.DELIMITER,
+  })
+%}
+
+dynamic_sql -> %DYNAMIC_SQL_BEGIN expressions_or_clauses %DYNAMIC_SQL_END {%
+  ([dynamic_sql_begin,expression,dynamic_sql_end]) => ({
+    type: NodeType.dynamic_sql,
+    start: dynamic_sql_begin.start,
+    nested: expression,
+    dynamicSqlBeginKw: toKeywordNode(dynamic_sql_begin),
+    dynamicSqlEndKw: toKeywordNode(dynamic_sql_end),
   })
 %}
 

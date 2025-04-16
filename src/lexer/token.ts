@@ -12,6 +12,7 @@ export enum TokenType {
   RESERVED_SET_OPERATION = 'RESERVED_SET_OPERATION',
   RESERVED_CLAUSE = 'RESERVED_CLAUSE',
   RESERVED_SELECT = 'RESERVED_SELECT',
+  DYNAMIC_SQL_BEGIN = 'DYNAMIC_SQL_BEGIN',
   RESERVED_JOIN = 'RESERVED_JOIN',
   ARRAY_IDENTIFIER = 'ARRAY_IDENTIFIER', // IDENTIFIER token in front of [
   ARRAY_KEYWORD = 'ARRAY_KEYWORD', // RESERVED_DATA_TYPE token in front of [
@@ -27,6 +28,7 @@ export enum TokenType {
   XOR = 'XOR',
   OPERATOR = 'OPERATOR',
   COMMA = 'COMMA',
+  DYNAMIC_SQL_END = 'DYNAMIC_SQL_END',
   ASTERISK = 'ASTERISK', // *
   PROPERTY_ACCESS_OPERATOR = 'PROPERTY_ACCESS_OPERATOR', // Usually "."
   OPEN_PAREN = 'OPEN_PAREN',
@@ -95,6 +97,8 @@ export const isReserved = (type: TokenType): boolean =>
   type === TokenType.RESERVED_SELECT ||
   type === TokenType.RESERVED_SET_OPERATION ||
   type === TokenType.RESERVED_JOIN ||
+  type === TokenType.DYNAMIC_SQL_BEGIN ||
+  type === TokenType.DYNAMIC_SQL_END ||
   type === TokenType.ARRAY_KEYWORD ||
   type === TokenType.CASE ||
   type === TokenType.END ||

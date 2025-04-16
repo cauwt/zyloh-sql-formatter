@@ -5,6 +5,8 @@
 function id(d: any[]): any { return d[0]; }
 declare var DELIMITER: any;
 declare var EOF: any;
+declare var DYNAMIC_SQL_BEGIN: any;
+declare var DYNAMIC_SQL_END: any;
 declare var LIMIT: any;
 declare var COMMA: any;
 declare var RESERVED_SELECT: any;
@@ -45,7 +47,7 @@ declare var BLOCK_COMMENT: any;
 declare var DISABLE_COMMENT: any;
 
 import LexerAdapter from './LexerAdapter';
-import { NodeType, AstNode, CommentNode, KeywordNode, IdentifierNode, DataTypeNode } from './ast';
+import { NodeType, AstNode, DynamicSQLNode, CommentNode, KeywordNode, IdentifierNode, DataTypeNode } from './ast';
 import { Token, TokenType } from '../lexer/token';
 
 // The lexer here is only to provide the has() method,
@@ -149,14 +151,25 @@ const grammar: Grammar = {
           }
         }
         },
-    {"name": "statement$subexpression$1", "symbols": [(lexer.has("DELIMITER") ? {type: "DELIMITER"} : DELIMITER)]},
-    {"name": "statement$subexpression$1", "symbols": [(lexer.has("EOF") ? {type: "EOF"} : EOF)]},
-    {"name": "statement", "symbols": ["expressions_or_clauses", "statement$subexpression$1"], "postprocess": 
-        ([children, [delimiter]]) => ({
+    {"name": "statement$subexpression$1", "symbols": ["expressions_or_clauses"]},
+    {"name": "statement$subexpression$1", "symbols": ["dynamic_sql"]},
+    {"name": "statement$subexpression$2", "symbols": [(lexer.has("DELIMITER") ? {type: "DELIMITER"} : DELIMITER)]},
+    {"name": "statement$subexpression$2", "symbols": [(lexer.has("EOF") ? {type: "EOF"} : EOF)]},
+    {"name": "statement", "symbols": ["statement$subexpression$1", "statement$subexpression$2"], "postprocess": 
+        ([[children], [delimiter]]) => ({
           type: NodeType.statement,
           start: children.start,
           children,
           hasSemicolon: delimiter.type === TokenType.DELIMITER,
+        })
+        },
+    {"name": "dynamic_sql", "symbols": [(lexer.has("DYNAMIC_SQL_BEGIN") ? {type: "DYNAMIC_SQL_BEGIN"} : DYNAMIC_SQL_BEGIN), "expressions_or_clauses", (lexer.has("DYNAMIC_SQL_END") ? {type: "DYNAMIC_SQL_END"} : DYNAMIC_SQL_END)], "postprocess": 
+        ([dynamic_sql_begin,expression,dynamic_sql_end]) => ({
+          type: NodeType.dynamic_sql,
+          start: dynamic_sql_begin.start,
+          nested: expression,
+          dynamicSqlBeginKw: toKeywordNode(dynamic_sql_begin),
+          dynamicSqlEndKw: toKeywordNode(dynamic_sql_end),
         })
         },
     {"name": "expressions_or_clauses$ebnf$1", "symbols": []},

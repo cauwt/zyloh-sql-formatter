@@ -2,6 +2,7 @@ import { TokenType } from '../lexer/token';
 
 export enum NodeType {
   statement = 'statement',
+  dynamic_sql = 'dynamic_sql',
   clause = 'clause',
   set_operation = 'set_operation',
   function_call = 'function_call',
@@ -37,6 +38,13 @@ export interface StatementNode extends BaseNode {
   type: NodeType.statement;
   children: AstNode[];
   hasSemicolon: boolean;
+}
+
+export interface DynamicSQLNode extends BaseNode {
+  type: NodeType.dynamic_sql;
+  nested: AstNode;
+  beginKw: KeywordNode;
+  endKw: KeywordNode;
 }
 
 export interface ClauseNode extends BaseNode {
@@ -189,6 +197,7 @@ export interface DisableCommentNode extends BaseNode {
 export type CommentNode = LineCommentNode | BlockCommentNode | DisableCommentNode;
 
 export type AstNode =
+  | DynamicSQLNode
   | ClauseNode
   | SetOperationNode
   | FunctionCallNode

@@ -100,6 +100,9 @@ export interface TokenizerOptions {
   propertyAccessOperators?: string[];
   // Enables PostgreSQL-specific OPERATOR(...) syntax
   operatorKeyword?: boolean;
+  // True for dynamic SQL, false or undefined for static SQL
+  // Dynamic SQL is when the SQL statement is built at runtime
+  dynamicSQL?:boolean;
   // Allows custom modifications on the token array.
   // Called after the whole input string has been split into tokens.
   // The result of this will be the output of the tokenizer.
