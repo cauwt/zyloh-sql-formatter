@@ -53,6 +53,7 @@ export default class Tokenizer {
           {
             type: TokenType.DYNAMIC_SQL_BEGIN,
             regex: /EXECUTE IMMEDIATE '/iuy,
+            text: toCanonical,
           },
         ]
         : []),
