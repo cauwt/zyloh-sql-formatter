@@ -106,10 +106,7 @@ function extractCurrentSql(text: string, cursorPosition: number): string {
 	// 检查是否为动态SQL
 	const dynamicSqlMatch = (sql + ";").match(/EXECUTE\s+IMMEDIATE\s+'([^;]+)'\s*;/i);
 	if (dynamicSqlMatch) {
-		// 提取动态SQL语句
-		sql = dynamicSqlMatch[1];
 		dynamicSQL = true;
-
 	}
 
 
@@ -123,11 +120,8 @@ function extractCurrentSql(text: string, cursorPosition: number): string {
 
 	let table_lineages = lineage(sql, {
 		language: 'plsql', 
-		dynamicSQL: dynamicSQL, 
-		stringTypes: [{ quote: "''''-raw", prefixes: ['N'] },],
-		paramTypes: { named: [':'], numbered: [':'],
-			custom: [{ regex: String.raw`'''\s*\|\|\s*\w+\s*\|\|\s*'''` }, 
-				{ regex: String.raw`(?:[^']\s*)'\s*\|\|\s*\w+\s*(?:\|\|\s*'|$)` }]} });
+		dynamicSQL: dynamicSQL,
+	});
 	console.log(`table_lineages: \n${JSON.stringify(table_lineages)}`);
 
 	return sql;

@@ -105,8 +105,7 @@ export const lineageDialect = (
     ...cfg,
   };
   // 修改dialect的配置选项，以支持动态SQL和参数化查询
-  dialect.tokenizerOptions.stringTypes = options.dynamicSQL && options.stringTypes ? options.stringTypes : dialect.tokenizerOptions.stringTypes;
-  dialect.tokenizerOptions.paramTypes = options.dynamicSQL ? options.paramTypes : dialect.tokenizerOptions.paramTypes;
+  dialect.tokenizerOptions.dynamicSQL = options.dynamicSQL;
 
   // 创建血缘分析器实例并执行分析
   return new Lineager(

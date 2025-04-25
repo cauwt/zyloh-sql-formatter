@@ -82,8 +82,17 @@ main -> statement:* {%
   }
 %}
 
-statement -> (expressions_or_clauses|dynamic_sql) (%DELIMITER | %EOF) {%
-  ([[children], [delimiter]]) => ({
+statement -> dynamic_sql (%DELIMITER | %EOF) {%
+  ([children, [delimiter]]) => ({
+    type: NodeType.statement,
+    start: children.start,
+    children:[children],
+    hasSemicolon: delimiter.type === TokenType.DELIMITER,
+  })
+%}
+
+statement -> expressions_or_clauses (%DELIMITER | %EOF) {%
+  ([children, [delimiter]]) => ({
     type: NodeType.statement,
     start: children.start,
     children,
@@ -92,10 +101,10 @@ statement -> (expressions_or_clauses|dynamic_sql) (%DELIMITER | %EOF) {%
 %}
 
 dynamic_sql -> %DYNAMIC_SQL_BEGIN expressions_or_clauses %DYNAMIC_SQL_END {%
-  ([dynamic_sql_begin,expression,dynamic_sql_end]) => ({
+  ([dynamic_sql_begin,children,dynamic_sql_end]) => ({
     type: NodeType.dynamic_sql,
     start: dynamic_sql_begin.start,
-    nested: expression,
+    children: children,
     dynamicSqlBeginKw: toKeywordNode(dynamic_sql_begin),
     dynamicSqlEndKw: toKeywordNode(dynamic_sql_end),
   })

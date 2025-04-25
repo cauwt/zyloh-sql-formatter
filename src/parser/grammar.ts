@@ -151,12 +151,20 @@ const grammar: Grammar = {
           }
         }
         },
-    {"name": "statement$subexpression$1", "symbols": ["expressions_or_clauses"]},
-    {"name": "statement$subexpression$1", "symbols": ["dynamic_sql"]},
+    {"name": "statement$subexpression$1", "symbols": [(lexer.has("DELIMITER") ? {type: "DELIMITER"} : DELIMITER)]},
+    {"name": "statement$subexpression$1", "symbols": [(lexer.has("EOF") ? {type: "EOF"} : EOF)]},
+    {"name": "statement", "symbols": ["dynamic_sql", "statement$subexpression$1"], "postprocess": 
+        ([children, [delimiter]]) => ({
+          type: NodeType.statement,
+          start: children.start,
+          children:[children],
+          hasSemicolon: delimiter.type === TokenType.DELIMITER,
+        })
+        },
     {"name": "statement$subexpression$2", "symbols": [(lexer.has("DELIMITER") ? {type: "DELIMITER"} : DELIMITER)]},
     {"name": "statement$subexpression$2", "symbols": [(lexer.has("EOF") ? {type: "EOF"} : EOF)]},
-    {"name": "statement", "symbols": ["statement$subexpression$1", "statement$subexpression$2"], "postprocess": 
-        ([[children], [delimiter]]) => ({
+    {"name": "statement", "symbols": ["expressions_or_clauses", "statement$subexpression$2"], "postprocess": 
+        ([children, [delimiter]]) => ({
           type: NodeType.statement,
           start: children.start,
           children,
@@ -164,10 +172,10 @@ const grammar: Grammar = {
         })
         },
     {"name": "dynamic_sql", "symbols": [(lexer.has("DYNAMIC_SQL_BEGIN") ? {type: "DYNAMIC_SQL_BEGIN"} : DYNAMIC_SQL_BEGIN), "expressions_or_clauses", (lexer.has("DYNAMIC_SQL_END") ? {type: "DYNAMIC_SQL_END"} : DYNAMIC_SQL_END)], "postprocess": 
-        ([dynamic_sql_begin,expression,dynamic_sql_end]) => ({
+        ([dynamic_sql_begin,children,dynamic_sql_end]) => ({
           type: NodeType.dynamic_sql,
           start: dynamic_sql_begin.start,
-          nested: expression,
+          children: children,
           dynamicSqlBeginKw: toKeywordNode(dynamic_sql_begin),
           dynamicSqlEndKw: toKeywordNode(dynamic_sql_end),
         })
