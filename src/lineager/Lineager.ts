@@ -32,7 +32,7 @@ import {
 import { LineageOptions} from '../sqlLineager';
 import { ColumnLineage } from './columnLineage';
 import { TableLineage } from './tableLineage';
-import { Table } from './table';
+import { Table, TableIdentity } from './table';
 
 export default class Lineager {
   private dialect: Dialect;
@@ -100,11 +100,10 @@ export default class Lineager {
     }
   
     const { db, schema, name } = match.groups;
-  
+    let tableIdentity: TableIdentity ={ db, schema, name };
     return {
-      db: db || undefined,
-      schema: schema || undefined,
-      name: name
+      tableName: tableIdentity,
+      columns: []
     };
   }
 } 
