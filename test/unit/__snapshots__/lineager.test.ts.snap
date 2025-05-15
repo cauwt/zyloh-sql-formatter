@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Simple Lineage 1`] = `
+[
+  {
+    "tableName": "dest.dest_table",
+    "tableAlias": "t1",
+    "srcTables": ["src.table1", "src.table2"],
+    "columns": [{"columnName":"col1","srcColumns":[
+      {"columnName":"col1", "tableName":"src.table1","tableAlias": "t1" },
+      {"columnName":"col2", "tableName":"src.table1","tableAlias": "t1"}]}],
+  },
+]
+`;

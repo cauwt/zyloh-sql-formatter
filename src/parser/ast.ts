@@ -42,7 +42,7 @@ export interface StatementNode extends BaseNode {
 
 export interface DynamicSQLNode extends BaseNode {
   type: NodeType.dynamic_sql;
-  children: AstNode;
+  children: AstNode[];
   beginKw: KeywordNode;
   endKw: KeywordNode;
 }

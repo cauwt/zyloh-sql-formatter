@@ -61,8 +61,18 @@ export default class Lineager {
     const lineages: TableLineage[] = [];
     // 遍历每个语句节点
     for (const statement of statements) {
-      if (statement.children.length > 0) {
-        const subnode0 = statement.children[0];
+        let sqlNodes:AstNode[] =[];      //将statement.children[0]赋给node，作为处理后续逻辑的起点
+      if (statement.children.length > 0){
+        sqlNodes = statement.children;
+        // 如果第一个子节点是动态SQL，则将其赋值给node
+        if (sqlNodes[0].type === NodeType.dynamic_sql) {
+          sqlNodes = sqlNodes[0].children;
+        }
+      }
+      
+
+      if (sqlNodes.length > 0) {
+        const subnode0 = sqlNodes[0];
         if (subnode0.type === NodeType.clause && subnode0.nameKw.text.match(/CREATE (GLOBAL TEMPORARY )?TABLE/iuy)) {
           // 提取表名
           const tableNameNode = subnode0.children[0];
